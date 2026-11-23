@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 1, урок 3</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 3 · Koks tavo adresas?</h1>
+  <div class="sub">Sėkmės! 1 · числа, где живёшь и работаешь, prie + родительный, места в городе, gyventi / dirbti / studijuoti</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Kur tu gyveni?» значит…",["Где ты живёшь?","Откуда ты?","Как тебя зовут?","Кем ты работаешь?"],0,"Kur — «где», gyveni — «живёшь». Ответ: Aš gyvenu Vilniuje."],
+["«Koks tavo adresas?» значит…",["Какой у тебя адрес?","Где ты живёшь?","Какой у тебя телефон?","Откуда ты?"],0,"Adresas — «адрес». Koks — потому что adresas мужского рода."],
+["«Koks jūsų telefono numeris?» значит…",["Какой у вас номер телефона?","Какой у вас адрес?","Где вы живёте?","Как вас зовут?"],0,"Telefono numeris — «номер телефона»."],
+["Как по-литовски 7?",["septyni","šeši","aštuoni","penki"],0,"7 — septyni, 6 — šeši, 8 — aštuoni, 5 — penki."],
+["Как по-литовски 14?",["keturiolika","keturi","keturiasdešimt","keturiasdešimt keturi"],0,"Числа 11–19 заканчиваются на -olika: keturiolika."],
+["Как по-литовски 20?",["dvidešimt","dvylika","du šimtai","dešimt"],0,"Десятки на -dešimt: dvidešimt — 20, trisdešimt — 30."],
+["Как по-литовски 40?",["keturiasdešimt","keturiolika","keturi šimtai","keturi"],0,"Keturiasdešimt — «сорок»."],
+["Сколько будет «šešiasdešimt šeši»?",["66","56","76","60"],0,"Šešiasdešimt — 60, šeši — 6, вместе 66."],
+["Сколько будет «dvidešimt aštuoni»?",["28","18","38","82"],0,"Dvidešimt — 20, aštuoni — 8, вместе 28."],
+["Как по-литовски 205?",["du šimtai penki","šimtas penki","du šimtas penki","dvidešimt penki"],0,"200 — du šimtai, 5 — penki: du šimtai penki."],
+["Aš gyvenu ___. (Kaunas)",["Kaune","Kauno","Kaunas","Kaunui"],0,"Для вопроса «где?» нужен местный падеж: -as → -e."],
+["Aš gyvenu ___. (Vilnius)",["Vilniuje","Vilniaus","Vilnie","Vilnius"],0,"-us → -uje: Vilnius → Vilniuje."],
+["Ji gyvena ___. (Klaipėda)",["Klaipėdoje","Klaipėdos","Klaipėdą","Klaipėda"],0,"-a → -oje: Klaipėda → Klaipėdoje."],
+["Mes gyvename ___. (Panevėžys)",["Panevėžyje","Panevėžio","Panevėžuje","Panevėžis"],0,"-ys → -yje: Panevėžys → Panevėžyje."],
+["Jie gyvena ___. (Antakalnis)",["Antakalnyje","Antakalnio","Antakalnije","Antakalnis"],0,"-is → -yje: Antakalnis → Antakalnyje."],
+["Jis gyvena ___. (Lietuva)",["Lietuvoje","Lietuvos","Lietuvą","Lietuva"],0,"Lietuva → Lietuvoje."],
+["Ji dirba ___. (Žagarė)",["Žagarėje","Žagarės","Žagaroje","Žagarė"],0,"-ė → -ėje: Žagarė → Žagarėje."],
+["Aš dirbu ___. (Trakai)",["Trakuose","Trakai","Trakų","Trakoje"],0,"Названия во множественном числе: -ai → -uose: Trakai → Trakuose."],
+["Ji dirba ___. (bankas)",["banke","banko","bankas","bankoje"],0,"Bankas → banke (-as → -e)."],
+["Mes dirbame ___. (biblioteka)",["bibliotekoje","bibliotekos","biblioteke","biblioteka"],0,"-a → -oje: biblioteka → bibliotekoje."],
+["Jis dirba ___. (muziejus)",["muziejuje","muziejaus","muziejui","muziejus"],0,"-us → -uje: muziejus → muziejuje."],
+["Jie gyvena ___. (viešbutis)",["viešbutyje","viešbučio","viešbutije","viešbutis"],0,"-is → -yje: viešbutis → viešbutyje."],
+["Bankas yra prie ___. (muziejus)",["muziejaus","muziejuje","muziejuj","muziejų"],0,"После prie нужен родительный падеж: -us → -aus."],
+["Mokykla yra prie ___. (parkas)",["parko","parke","parkas","parkos"],0,"-as → -o: parkas → parko."],
+["Turgus yra prie ___. (stotis)",["stoties","stotyje","stotis","stotį"],0,"Для слов на -is типа stotis родительный — stoties."],
+["Gyvename prie ___. (upė)",["upės","upė","upėje","upę"],0,"-ė → -ės: upė → upės."],
+["Vaikų darželis yra prie ___. (parduotuvė)",["parduotuvės","parduotuvėje","parduotuvė","parduotuvo"],0,"-ė → -ės: parduotuvė → parduotuvės."],
+["Mes ___ čia. (gyventi)",["gyvename","gyvenate","gyvenu","gyvena"],0,"С mes окончание -ame."],
+["Ar jūs ___ centre? (gyventi)",["gyvenate","gyveni","gyvename","gyvenu"],0,"С jūs окончание -ate."],
+["Kur tu ___? (dirbti)",["dirbi","dirbu","dirba","dirbate"],0,"С tu окончание -i."],
+["Jie ___ Londone. (studijuoti)",["studijuoja","studijuoji","studijuoju","studijuojame"],0,"В 3-м лице форма одна: jis, ji, jie, jos studijuoja."],
+["«Kirpykla» — это…",["парикмахерская","аптека","больница","почта"],0,"Kirpykla — парикмахерская. Vaistinė — аптека, ligoninė — больница, paštas — почта."],
+["«Vaistinė» — это…",["аптека","больница","магазин","парк"],0,"Vaistinė — аптека."],
+["«Arti» и «toli» значат…",["близко и далеко","дома и на работе","здесь и там","рядом и вместе"],0,"Arti — близко, toli — далеко."],
+["«Bankas yra prie pašto» значит…",["Банк рядом с почтой.","Банк находится на почте.","Банк далеко от почты.","Почта в банке."],0,"Prie — «рядом с, у»."],
+["«Atsiprašau, kur yra muziejus?» значит…",["Извините, где музей?","Извините, как вас зовут?","Извините, музей далеко?","Извините, это музей?"],0,"Kur yra … — «где находится …»."]
+];
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 4.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 3 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карточки: урок 3 (литовский)</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--again:#b45309}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--again:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:460px;padding:16px 16px 32px}
+h1{font-size:20px;margin:4px 0 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:7px 12px;border-radius:999px;font-size:14px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.stat{color:var(--muted);font-size:14px;margin:6px 0 10px;display:flex;justify-content:space-between}
+.scene{perspective:1000px;height:240px;margin-bottom:14px}
+.card{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d;cursor:pointer}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.back{transform:rotateY(180deg)}
+.word{font-size:32px;font-weight:600;word-break:break-word}
+.word.long{font-size:22px}
+.sub{font-size:18px;color:var(--muted);margin-top:10px}
+.hint{color:var(--muted);font-size:13px;margin-top:14px}
+.btns{display:flex;gap:10px}
+.btn{flex:1;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.again{border-color:var(--again);color:var(--again)}
+.done{text-align:center;padding:50px 10px;border:1px dashed var(--line);border-radius:18px}
+.done b{font-size:22px;display:block;margin-bottom:8px}
+.tools{display:flex;gap:8px;margin-top:12px}
+.tools .btn{padding:10px;font-size:14px}
+.note{color:var(--muted);font-size:13px;margin-top:8px}
+.nav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.arrow{width:56px;height:48px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
+.arrow:disabled{opacity:.35;cursor:default}
+.pos{flex:1;text-align:center;color:var(--muted);font-size:15px}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Урок 3 · Koks tavo adresas?</h1>
+  <div class="row" id="cats"></div>
+  <div class="row" id="dirs"></div>
+  <div class="stat"><span id="left"></span><span id="known"></span></div>
+  <div id="stage"></div>
+  <div class="tools">
+    <button class="btn" id="shuffle">Перемешать</button>
+    <button class="btn" id="reset">Начать заново</button>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+<script>
+var DATA=[];
+function add(cat,list,fn){list.forEach(function(x){var r=fn(x);DATA.push([r[0],r[1],cat])})}
+function id(x){return x}
+
+add("nums",[
+["0 · nulis","ноль"],["1 · vienas","один"],["2 · du","два"],["3 · trys","три"],["4 · keturi","четыре"],
+["5 · penki","пять"],["6 · šeši","шесть"],["7 · septyni","семь"],["8 · aštuoni","восемь"],["9 · devyni","девять"],
+["10 · dešimt","десять"],["11 · vienuolika","одиннадцать"],["12 · dvylika","двенадцать"],["13 · trylika","тринадцать"],
+["14 · keturiolika","четырнадцать"],["15 · penkiolika","пятнадцать"],["16 · šešiolika","шестнадцать"],
+["17 · septyniolika","семнадцать"],["18 · aštuoniolika","восемнадцать"],["19 · devyniolika","девятнадцать"],
+["20 · dvidešimt","двадцать"],["30 · trisdešimt","тридцать"],["40 · keturiasdešimt","сорок"],
+["50 · penkiasdešimt","пятьдесят"],["60 · šešiasdešimt","шестьдесят"],["70 · septyniasdešimt","семьдесят"],
+["80 · aštuoniasdešimt","восемьдесят"],["90 · devyniasdešimt","девяносто"],["100 · šimtas","сто"],
+["200 · du šimtai","двести"],["300 · trys šimtai","триста"],
+["45 · keturiasdešimt penki","сорок пять"],["101 · šimtas vienas","сто один"],
+["116 · šimtas šešiolika","сто шестнадцать"],["205 · du šimtai penki","двести пять"]
+],function(x){var p=x[0].split(" · ");return [p[1],p[0]+"\n"+x[1]]});
+
+add("verbs",[
+["gyventi","жить"],["dirbti","работать"],["studijuoti","учиться в вузе, изучать"],
+["aš gyvenu","я живу"],["tu gyveni","ты живёшь"],["jis, ji gyvena","он, она живёт"],
+["mes gyvename","мы живём"],["jūs gyvenate","вы живёте"],["jie, jos gyvena","они живут"],
+["aš dirbu","я работаю"],["tu dirbi","ты работаешь"],["jis, ji dirba","он, она работает"],
+["mes dirbame","мы работаем"],["jūs dirbate","вы работаете"],
+["aš studijuoju","я учусь"],["tu studijuoji","ты учишься"],["jis, ji studijuoja","он, она учится"],
+["mes studijuojame","мы учимся"],["jūs studijuojate","вы учитесь"],
+["aš nedirbu","я не работаю"],["mes nedirbame","мы не работаем"]
+],id);
+
+add("places",[
+["adresas","адрес"],["telefonas / telefono numeris","телефон / номер телефона"],
+["namas","дом"],["butas","квартира"],["kambarys","комната"],["bendrabutis","общежитие"],
+["viešbutis","гостиница"],["centras","центр"],["senamiestis","старый город"],["miestas","город"],
+["sostinė","столица"],["bažnyčia","церковь"],["ambasada","посольство"],["bankas","банк"],["paštas","почта"],
+["ministerija","министерство"],["biuras","бюро, офис"],["universitetas","университет"],
+["mokykla","школа"],["vaikų darželis","детский сад"],["biblioteka","библиотека"],["knygynas","книжный магазин"],
+["restoranas","ресторан"],["baras","бар"],["kavinė","кафе"],["valgykla","столовая"],
+["prekybos centras","торговый центр"],["parduotuvė","магазин"],["kioskas","киоск"],["turgus","рынок"],
+["kirpykla","парикмахерская"],["grožio salonas","салон красоты"],["kino teatras","кинотеатр"],
+["teatras","театр"],["muziejus","музей"],["pilis","замок"],["sporto klubas","спортклуб"],
+["ligoninė","больница"],["klinika","клиника"],["vaistinė","аптека"]
+],id);
+
+add("city",[
+["gatvė","улица"],["alėja","аллея"],["prospektas","проспект"],["aikštė","площадь"],
+["oro uostas","аэропорт"],["stotis","станция, вокзал"],["autobusų stotis","автовокзал"],
+["geležinkelio stotis","железнодорожный вокзал"],["stotelė","остановка"],["darbas","работа"],
+["upė","река"],["tiltas","мост"],["ežeras","озеро"],["jūra","море"],["parkas","парк"],["miškas","лес"],
+["arti","близко"],["toli","далеко"],["namie","дома"],
+["bendradarbis / bendradarbė","коллега"],["kaimynas / kaimynė","сосед / соседка"]
+],id);
+
+add("phrases",[
+["Kur tu gyveni?","Где ты живёшь?"],
+["Aš gyvenu Vilniuje.","Я живу в Вильнюсе."],
+["Ar jūs gyvenate centre?","Вы живёте в центре?"],
+["Ar jūs gyvenate prie parduotuvės?","Вы живёте рядом с магазином?"],
+["Mes gyvename prie mokyklos.","Мы живём рядом со школой."],
+["Atsiprašau, kur yra bankas?","Извините, где банк?"],
+["Bankas yra prie pašto.","Банк рядом с почтой."],
+["Kaip jūs gyvenate?","Как вы живёте?"],
+["Koks tavo adresas?","Какой у тебя адрес?"],
+["Koks jūsų adresas?","Какой у вас адрес?"],
+["Koks tavo telefono numeris?","Какой у тебя номер телефона?"],
+["Atsiprašau, ar stotis yra toli?","Извините, вокзал далеко?"],
+["Ne, arti. Prie turgaus.","Нет, близко. Рядом с рынком."],
+["Aš gyvenu ir dirbu Vilniuje.","Я живу и работаю в Вильнюсе."],
+["Aš gyvenu Vilniuje, o dirbu Kaune.","Я живу в Вильнюсе, а работаю в Каунасе."],
+["Ar tu dirbi? — Ne, aš studijuoju.","Ты работаешь? — Нет, я учусь."]
+],id);
+
+add("loc",[
+["Vilnius","Вильнюс","Vilniuje"],["Kaunas","Каунас","Kaune"],["Klaipėda","Клайпеда","Klaipėdoje"],
+["Panevėžys","Паневежис","Panevėžyje"],["Antakalnis","Антакальнис (район)","Antakalnyje"],
+["Žagarė","Жагаре","Žagarėje"],["Trakai","Тракай","Trakuose"],["Šiauliai","Шяуляй","Šiauliuose"],
+["Santariškės","Сантаришкес","Santariškėse"],["Lietuva","Литва","Lietuvoje"],
+["Anglija","Англия","Anglijoje"],["Amerika","Америка","Amerikoje"],["Kanada","Канада","Kanadoje"],
+["Ukraina","Украина","Ukrainoje"],["Vokietija","Германия","Vokietijoje"],["Prancūzija","Франция","Prancūzijoje"],
+["Italija","Италия","Italijoje"],["Portugalija","Португалия","Portugalijoje"],["Kolumbija","Колумбия","Kolumbijoje"],
+["Londonas","Лондон","Londone"],["Berlynas","Берлин","Berlyne"],["Paryžius","Париж","Paryžiuje"],
+["Maskva","Москва","Maskvoje"],["Stokholmas","Стокгольм","Stokholme"],["Roma","Рим","Romoje"],
+["Praha","Прага","Prahoje"],["Viena","Вена","Vienoje"],["Madridas","Мадрид","Madride"],
+["Kijevas","Киев","Kijeve"],["Budapeštas","Будапешт","Budapešte"],["Talinas","Таллин","Taline"],
+["Briuselis","Брюссель","Briuselyje"],["Minskas","Минск","Minske"],["Dublinas","Дублин","Dubline"],
+["Oslas","Осло","Osle"],["Ryga","Рига","Rygoje"],["Varšuva","Варшава","Varšuvoje"],
+["Lisabona","Лиссабон","Lisabonoje"],["Ankara","Анкара","Ankaroje"],["Pekinas","Пекин","Pekine"],
+["Helsinkis","Хельсинки","Helsinkyje"],["Tokijas","Токио","Tokijuje"],
+["centras","центр","centre"],["senamiestis","старый город","senamiestyje"],["butas","квартира","bute"],
+["bendrabutis","общежитие","bendrabutyje"],["viešbutis","гостиница","viešbutyje"],["paštas","почта","pašte"],
+["universitetas","университет","universitete"],["bankas","банк","banke"],["ambasada","посольство","ambasadoje"],
+["kirpykla","парикмахерская","kirpykloje"],["mokykla","школа","mokykloje"],["restoranas","ресторан","restorane"],
+["muziejus","музей","muziejuje"],["teatras","театр","teatre"],["turgus","рынок","turguje"],
+["biblioteka","библиотека","bibliotekoje"],["ligoninė","больница","ligoninėje"],
+["vaistinė","аптека","vaistinėje"],["kavinė","кафе","kavinėje"],["parduotuvė","магазин","parduotuvėje"],
+["gatvė","улица","gatvėje"],["pilis","замок","pilyje"],["kioskas","киоск","kioske"]
+],function(x){return [x[0]+"\n"+x[1]+" · «в …»","Aš esu / gyvenu: "+x[2]]});
+
+add("prie",[
+["bankas","банк","banko"],["darželis","детский сад","darželio"],["Panevėžys","Паневежис","Panevėžio"],
+["ambasada","посольство","ambasados"],["kavinė","кафе","kavinės"],["turgus","рынок","turgaus"],
+["stotis","станция","stoties"],["upė","река","upės"],["universitetas","университет","universiteto"],
+["teatras","театр","teatro"],["parduotuvė","магазин","parduotuvės"],["parkas","парк","parko"],
+["muziejus","музей","muziejaus"],["pilis","замок","pilies"],["mokykla","школа","mokyklos"],
+["miškas","лес","miško"],["ežeras","озеро","ežero"],["tiltas","мост","tilto"],["paštas","почта","pašto"]
+],function(x){return [x[0]+"\n"+x[1]+" · «рядом с …»","prie "+x[2]]});
+
+var cat="all",dir="lt",deck=[],known=0,flipped=false,pos=0;
+var CATS=[["all","Все"],["nums","Числа"],["verbs","Глаголы"],["places","Места"],["city","Город"],["phrases","Фразы"],["loc","Где? (в …)"],["prie","Prie + род. п."]];
+var DIRS=[["lt","Литовский → русский"],["ru","Русский → литовский"]];
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function build(){
+  deck=DATA.filter(function(d){return cat==="all"||d[2]===cat});
+  shuf(deck);known=0;flipped=false;pos=0;render();
+}
+function chips(id,list,cur,fn){
+  var el=document.getElementById(id);el.innerHTML="";
+  list.forEach(function(x){
+    var b=document.createElement("button");b.className="chip"+(x[0]===cur?" on":"");b.textContent=x[1];
+    b.onclick=function(){fn(x[0])};el.appendChild(b);
+  });
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function side(txt){
+  var parts=txt.split("\n");
+  var main=parts[0];
+  var h='<div class="word'+(main.length>18?' long':'')+'">'+esc(main)+'</div>';
+  if(parts[1])h+='<div class="sub">'+esc(parts[1])+'</div>';
+  return h;
+}
+function render(){
+  chips("cats",CATS,cat,function(v){cat=v;build()});
+  chips("dirs",DIRS,dir,function(v){dir=v;flipped=false;render()});
+  document.getElementById("left").textContent="Осталось: "+deck.length;
+  document.getElementById("known").textContent="Знаю: "+known;
+  var st=document.getElementById("stage");
+  if(!deck.length){
+    st.innerHTML='<div class="done"><b>Готово!</b>Вы прошли все карточки. Нажмите «Начать заново», чтобы повторить.</div>';
+    return;
+  }
+  if(pos>=deck.length)pos=deck.length-1;
+  if(pos<0)pos=0;
+  var c=deck[pos],front,back,fixed=(c[2]==="loc"||c[2]==="prie");
+  if(fixed||dir==="lt"){front=c[0];back=c[1]}else{front=c[1];back=c[0]}
+  document.getElementById("note").textContent=fixed?"В этих карточках направление всегда одно: форма → нужная форма.":"";
+  st.innerHTML='<div class="nav"><button class="arrow" id="prev" aria-label="Предыдущая карточка"'+(pos===0?' disabled':'')+'>←</button>'
+    +'<div class="pos">'+(pos+1)+' из '+deck.length+'</div>'
+    +'<button class="arrow" id="next" aria-label="Следующая карточка"'+(pos===deck.length-1?' disabled':'')+'>→</button></div>'
+    +'<div class="scene"><div class="card'+(flipped?' flip':'')+'" id="card">'
+    +'<div class="face">'+side(front)+'<div class="hint">нажмите, чтобы перевернуть</div></div>'
+    +'<div class="face back">'+side(back)+'</div></div></div>'
+    +'<div class="btns"><button class="btn again" id="again">Повторить</button><button class="btn ok" id="ok">Знаю</button></div>';
+  var card=document.getElementById("card");
+  card.onclick=function(){if(swiped){swiped=false;return}flip()};
+  card.addEventListener("touchstart",function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+  card.addEventListener("touchend",function(e){
+    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;go(dx<0?1:-1)}
+  });
+  document.getElementById("prev").onclick=function(){go(-1)};
+  document.getElementById("next").onclick=function(){go(1)};
+  document.getElementById("ok").onclick=function(){deck.splice(pos,1);known++;flipped=false;render()};
+  document.getElementById("again").onclick=function(){deck.push(deck.splice(pos,1)[0]);flipped=false;render()};
+}
+var tx=0,ty=0,swiped=false;
+function flip(){var el=document.getElementById("card");if(!el)return;flipped=!flipped;el.classList.toggle("flip")}
+function go(step){
+  var n=pos+step;
+  if(n<0||n>=deck.length)return;
+  pos=n;flipped=false;render();
+}
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft"){go(-1)}
+  else if(e.key==="ArrowRight"){go(1)}
+  else if((e.key===" "||e.key==="Enter")&&e.target===document.body){e.preventDefault();flip()}
+});
+document.getElementById("shuffle").onclick=function(){shuf(deck);flipped=false;pos=0;render()};
+document.getElementById("reset").onclick=build;
+build();
+</script>
+</body>
+</html>
