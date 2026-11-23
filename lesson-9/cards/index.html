@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карточки: урок 9 (литовский)</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--again:#b45309}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--again:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:460px;padding:16px 16px 32px}
+h1{font-size:20px;margin:4px 0 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:7px 12px;border-radius:999px;font-size:14px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.stat{color:var(--muted);font-size:14px;margin:6px 0 10px;display:flex;justify-content:space-between}
+.scene{perspective:1000px;height:240px;margin-bottom:14px}
+.card{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d;cursor:pointer}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.back{transform:rotateY(180deg)}
+.word{font-size:32px;font-weight:600;word-break:break-word}
+.word.long{font-size:22px}
+.sub{font-size:18px;color:var(--muted);margin-top:10px}
+.hint{color:var(--muted);font-size:13px;margin-top:14px}
+.btns{display:flex;gap:10px}
+.btn{flex:1;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.again{border-color:var(--again);color:var(--again)}
+.done{text-align:center;padding:50px 10px;border:1px dashed var(--line);border-radius:18px}
+.done b{font-size:22px;display:block;margin-bottom:8px}
+.tools{display:flex;gap:8px;margin-top:12px}
+.tools .btn{padding:10px;font-size:14px}
+.note{color:var(--muted);font-size:13px;margin-top:8px}
+.nav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.arrow{width:56px;height:48px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
+.arrow:disabled{opacity:.35;cursor:default}
+.pos{flex:1;text-align:center;color:var(--muted);font-size:15px}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Урок 9 · Norėčiau kavos</h1>
+  <div class="row" id="cats"></div>
+  <div class="row" id="dirs"></div>
+  <div class="stat"><span id="left"></span><span id="known"></span></div>
+  <div id="stage"></div>
+  <div class="tools">
+    <button class="btn" id="shuffle">Перемешать</button>
+    <button class="btn" id="reset">Начать заново</button>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+<script>
+var DATA=[];
+function add(cat,list,fn){list.forEach(function(x){var r=fn(x);DATA.push([r[0],r[1],cat])})}
+function id(x){return x}
+
+add("cafe",[
+["kavinė","кафе"],["kepyklėlė","пекарня-кафе"],["restoranas","ресторан"],["baras","бар"],["picerija","пиццерия"],
+["padavėjas, padavėja","официант, официантка"],["barmenas","бармен"],["meniu","меню"],["dienos pietūs","комплексный обед"],
+["staliukas","столик"],["sąskaita","счёт"],["paprastai","обычно"],["patiekalas","блюдо"],["desertas","десерт"],
+["sriuba","суп"],["dienos sriuba","суп дня"],["daržovių sriuba","овощной суп"],["grybų sriuba","грибной суп"],["burokėlių sriuba","свекольный суп"],
+["salotos","салат"],["daržovių salotos","овощной салат"],["lietuviškos salotos","«русский» салат (оливье)"],
+["omletas","омлет"],["kiaušinienė","яичница"],["kepsnys","жаркое, стейк"],["pica","пицца"],["blynai","блины"],["bulvių blynai","картофельные оладьи"],
+["blynelis","блинчик"],["makaronai","макароны"],["ryžiai","рис"],["avižinė košė","овсяная каша"],["grikių košė","гречневая каша"],
+["ledai","мороженое"],["pyragaitis","пирожное"],["tortas","торт"]
+],id);
+
+add("drinks",[
+["gėrimas","напиток"],["vanduo","вода"],["gazuotas vanduo","газированная вода"],["negazuotas vanduo","негазированная вода"],
+["arbata","чай"],["juoda arbata","чёрный чай"],["žalia arbata","зелёный чай"],["vaisinė arbata","фруктовый чай"],
+["žolelių arbata","травяной чай"],["mėtų arbata","мятный чай"],["kokteilis","коктейль"],["sultys","сок"],
+["obuolių sultys","яблочный сок"],["apelsinų sultys","апельсиновый сок"],["ananasų sultys","ананасовый сок"],
+["vynuogių sultys","виноградный сок"],["morkų sultys","морковный сок"],["pomidorų sultys","томатный сок"],
+["actas","уксус"],["aliejus","масло (растительное)"],["cukrus","сахар"],["druska","соль"],["garstyčios","горчица"],
+["krienai","хрен"],["majonezas","майонез"],["padažas","соус"],["uogienė","варенье"]
+],id);
+
+add("adj",[
+["aštrus, aštri","острый, -ая"],["švelnus, švelni","нежный, мягкий"],["sūrus, sūri","солёный, -ая"],
+["skanu","вкусно"],["karšta","горячо, жарко"],["saldu","сладко"],["rūgštu","кисло"],["aštru","остро"],["sūru","солёно"]
+],id);
+
+add("lt",[
+["šaltibarščiai","холодный свекольный суп"],["cepelinai","цеппелины (картофельные «дирижабли»)"],
+["bulvių blynai","картофельные оладьи"],["medaus tortas","медовый торт"],["šakotis","шакотис (пирог на вертеле)"],["gira","гира (квас)"]
+],id);
+
+add("phrases",[
+["Ar jau išsirinkote? — Dar ne.","Вы уже выбрали? — Ещё нет."],
+["Ko norėtumėte?","Что бы вы хотели?"],
+["Norėčiau sriubos ir salotų.","Я хотел бы суп и салат."],
+["Norėčiau arbatos su citrina.","Я хотел бы чай с лимоном."],
+["Prašom juodos kavos su pienu.","Чёрный кофе с молоком, пожалуйста."],
+["Ar turite dienos pietų?","У вас есть комплексный обед?"],
+["Kokia yra dienos sriuba?","Какой сегодня суп дня?"],
+["Su kuo yra pyragas?","С чем этот пирог?"],
+["Ar turite vegetariškų patiekalų?","У вас есть вегетарианские блюда?"],
+["Ar turite salotų be česnakų ir be svogūnų?","У вас есть салат без чеснока и без лука?"],
+["Ar turite šviežiai spaustų apelsinų sulčių?","У вас есть свежевыжатый апельсиновый сок?"],
+["Gersite čia ar norėsite išsinešti?","Будете пить здесь или возьмёте с собой?"],
+["Mokėsite grynaisiais ar kortele? — Kortele.","Платить будете наличными или картой? — Картой."],
+["Prašom sąskaitą!","Счёт, пожалуйста!"],
+["Ar čia laisva? — Taip, prašom. / Ne, čia užimta.","Здесь свободно? — Да, пожалуйста. / Нет, занято."],
+["Ar buvo skanu? — Taip, buvo labai skanu!","Было вкусно? — Да, было очень вкусно!"],
+["Norėčiau išsinešti. — Galiu supakuoti.","Хотел бы взять с собой. — Могу упаковать."]
+],id);
+
+add("su",[
+["pienas","молоко","pienu"],["kumpis","ветчина","kumpiu"],["sūris","сыр","sūriu"],["citrina","лимон","citrina"],
+["grietinė","сметана","grietine"],["šokoladas","шоколад","šokoladu"],["obuoliai","яблоки","obuoliais"],["varškė","творог","varške"],
+["uogienė","варенье","uogiene"],["medus","мёд","medumi"],["braškės","клубника","braškėmis"],["pomidorai","помидоры","pomidorais"],
+["sviestas","сливочное масло","sviestu"],["bulvės","картофель","bulvėmis"],["ryžiai","рис","ryžiais"],["svogūnai","лук","svogūnais"],
+["česnakai","чеснок","česnakais"],["morkos","морковь","morkomis"],["daržovės","овощи","daržovėmis"],["ledai","мороженое","ledais"],
+["draugas","друг","draugu"],["brolis","брат","broliu"],["sūnus","сын","sūnumi"],["sesuo","сестра","seseria"],
+["duktė","дочь","dukteria"],["teta","тётя","teta"],["moteris","женщина","moterimi"],["draugai","друзья","draugais"]
+],function(x){return [x[0]+"\n"+x[1]+" · «su + кем / чем»","su "+x[2]]});
+
+add("be",[
+["cukrus","сахар","cukraus"],["pienas","молоко","pieno"],["grietinė","сметана","grietinės"],["majonezas","майонез","majonezo"],
+["druska","соль","druskos"],["padažas","соус","padažo"],["sviestas","масло","sviesto"],["actas","уксус","acto"],
+["aliejus","растительное масло","aliejaus"],["kmynai","тмин","kmynų"],["prieskoniai","специи","prieskonių"],
+["svogūnai","лук","svogūnų"],["česnakai","чеснок","česnakų"],["duona","хлеб","duonos"],["medus","мёд","medaus"],["vanduo","вода","vandens"]
+],function(x){return [x[0]+"\n"+x[1]+" · «без чего?»","be "+x[2]]});
+
+add("past",[
+["eiti","идти","ėjau · ėjai","ėjo · ėjome · ėjote"],
+["valgyti","есть","valgiau · valgei","valgė · valgėme · valgėte"],
+["gerti","пить","gėriau · gėrei","gėrė · gėrėme · gėrėte"],
+["būti","быть","buvau · buvai","buvo · buvome · buvote"],
+["važiuoti","ехать","važiavau · važiavai","važiavo · važiavome · važiavote"],
+["pusryčiauti","завтракать","pusryčiavau · pusryčiavai","pusryčiavo · pusryčiavome · pusryčiavote"],
+["pietauti","обедать","pietavau · pietavai","pietavo · pietavome · pietavote"],
+["vakarieniauti","ужинать","vakarieniavau · vakarieniavai","vakarieniavo · vakarieniavome · vakarieniavote"]
+],function(x){return [x[0]+"\n"+x[1]+" · «был(а)» (aš · tu / jis · mes · jūs)",x[2]+"\n"+x[3]]});
+
+var cat="all",dir="lt",deck=[],known=0,flipped=false,pos=0;
+var CATS=[["all","Все"],["cafe","Кафе и блюда"],["drinks","Напитки и соусы"],["adj","Вкус"],["lt","Литовская кухня"],["phrases","Заказ"],["su","Su + твор. п."],["be","Be + род. п."],["past","Прошедшее время"]];
+var DIRS=[["lt","Литовский → русский"],["ru","Русский → литовский"]];
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function build(){
+  deck=DATA.filter(function(d){return cat==="all"||d[2]===cat});
+  shuf(deck);known=0;flipped=false;pos=0;render();
+}
+function chips(id,list,cur,fn){
+  var el=document.getElementById(id);el.innerHTML="";
+  list.forEach(function(x){
+    var b=document.createElement("button");b.className="chip"+(x[0]===cur?" on":"");b.textContent=x[1];
+    b.onclick=function(){fn(x[0])};el.appendChild(b);
+  });
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function side(txt){
+  var parts=txt.split("\n");
+  var main=parts[0];
+  var h='<div class="word'+(main.length>18?' long':'')+'">'+esc(main)+'</div>';
+  if(parts[1])h+='<div class="sub">'+esc(parts[1])+'</div>';
+  return h;
+}
+function render(){
+  chips("cats",CATS,cat,function(v){cat=v;build()});
+  chips("dirs",DIRS,dir,function(v){dir=v;flipped=false;render()});
+  document.getElementById("left").textContent="Осталось: "+deck.length;
+  document.getElementById("known").textContent="Знаю: "+known;
+  var st=document.getElementById("stage");
+  if(!deck.length){
+    st.innerHTML='<div class="done"><b>Готово!</b>Вы прошли все карточки. Нажмите «Начать заново», чтобы повторить.</div>';
+    return;
+  }
+  if(pos>=deck.length)pos=deck.length-1;
+  if(pos<0)pos=0;
+  var c=deck[pos],front,back,fixed=(c[2]==="su"||c[2]==="be"||c[2]==="past");
+  if(fixed||dir==="lt"){front=c[0];back=c[1]}else{front=c[1];back=c[0]}
+  document.getElementById("note").textContent=fixed?"В этих карточках направление всегда одно: форма → нужная форма.":"";
+  st.innerHTML='<div class="nav"><button class="arrow" id="prev" aria-label="Предыдущая карточка"'+(pos===0?' disabled':'')+'>←</button>'
+    +'<div class="pos">'+(pos+1)+' из '+deck.length+'</div>'
+    +'<button class="arrow" id="next" aria-label="Следующая карточка"'+(pos===deck.length-1?' disabled':'')+'>→</button></div>'
+    +'<div class="scene"><div class="card'+(flipped?' flip':'')+'" id="card">'
+    +'<div class="face">'+side(front)+'<div class="hint">нажмите, чтобы перевернуть</div></div>'
+    +'<div class="face back">'+side(back)+'</div></div></div>'
+    +'<div class="btns"><button class="btn again" id="again">Повторить</button><button class="btn ok" id="ok">Знаю</button></div>';
+  var card=document.getElementById("card");
+  card.onclick=function(){if(swiped){swiped=false;return}flip()};
+  card.addEventListener("touchstart",function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+  card.addEventListener("touchend",function(e){
+    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;go(dx<0?1:-1)}
+  });
+  document.getElementById("prev").onclick=function(){go(-1)};
+  document.getElementById("next").onclick=function(){go(1)};
+  document.getElementById("ok").onclick=function(){deck.splice(pos,1);known++;flipped=false;render()};
+  document.getElementById("again").onclick=function(){deck.push(deck.splice(pos,1)[0]);flipped=false;render()};
+}
+var tx=0,ty=0,swiped=false;
+function flip(){var el=document.getElementById("card");if(!el)return;flipped=!flipped;el.classList.toggle("flip")}
+function go(step){
+  var n=pos+step;
+  if(n<0||n>=deck.length)return;
+  pos=n;flipped=false;render();
+}
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft"){go(-1)}
+  else if(e.key==="ArrowRight"){go(1)}
+  else if((e.key===" "||e.key==="Enter")&&e.target===document.body){e.preventDefault();flip()}
+});
+document.getElementById("shuffle").onclick=function(){shuf(deck);flipped=false;pos=0;render()};
+document.getElementById("reset").onclick=build;
+build();
+</script>
+</body>
+</html>
