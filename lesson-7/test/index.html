@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 1, урок 7</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 7 · Labai skanu!</h1>
+  <div class="sub">Sėkmės! 1 · еда и напитки, valgyti / gerti / norėti, винительный и родительный, повелительное наклонение, man patinka</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Prašom prie stalo!» значит…",["Прошу к столу!","Приятного аппетита!","Передай хлеб!","Я не голоден."],0,"Prie stalo — «к столу»."],
+["«Gero apetito!» значит…",["Приятного аппетита!","На здоровье!","Что ты хочешь?","Спасибо, было вкусно!"],0,"Gero apetito — пожелание перед едой."],
+["Что отвечают на «Ačiū, buvo labai skanu!»?",["Į sveikatą!","Gero apetito!","Prašom sėstis!","Ar skanu?"],0,"Į sveikatą — «на здоровье»."],
+["«Aš nealkanas» значит…",["Я не голоден","Я хочу есть","Мне вкусно","Я уже пил"],0,"Alkanas — голодный, sotus — сытый."],
+["Как по-литовски «молоко»?",["pienas","sūris","sviestas","varškė"],0,"Pienas — молоко, sūris — сыр."],
+["Как по-литовски «творог»?",["varškė","grietinė","kefyras","jogurtas"],0,"Varškė — творог, grietinė — сметана."],
+["Как по-литовски «рыба»?",["žuvis","mėsa","vištiena","kumpis"],0,"Žuvis — рыба."],
+["Как по-литовски «вода»?",["vanduo","sultys","pienas","gira"],0,"Vanduo — вода, sultys — сок."],
+["Как по-литовски «обед»?",["pietūs","pusryčiai","vakarienė","rytas"],0,"Pusryčiai — завтрак, pietūs — обед, vakarienė — ужин."],
+["Как по-литовски «ужин»?",["vakarienė","pusryčiai","pietūs","naktis"],0,"Vakarienė — ужин."],
+["Что такое «vištiena»?",["курятина","свинина","говядина","индейка"],0,"Vištiena — курица (мясо); kiauliena — свинина; jautiena — говядина."],
+["Что такое «kiauliena»?",["свинина","курятина","говядина","рыба"],0,"Kiauliena — свинина."],
+["Противоположность слова «šaltas»:",["karštas","skanus","virtas","juodas"],0,"Šaltas — холодный, karštas — горячий."],
+["Что такое «virtas kiaušinis»?",["варёное яйцо","жареное яйцо","горячее яйцо","большое яйцо"],0,"Virtas — варёный, keptas — жареный / печёный."],
+["Aš ___ kavą. (gerti)",["geriu","geri","geria","geriame"],0,"Aš geriu."],
+["Tu ___ pieną. (gerti)",["geri","geriu","geria","geriate"],0,"Tu geri."],
+["Mes ___ košę. (valgyti)",["valgome","valgau","valgo","valgote"],0,"Mes valgome."],
+["Jūs ___ sumuštinį. (valgyti)",["valgote","valgome","valgai","valgau"],0,"Jūs valgote."],
+["Ji ___ varškę. (valgyti)",["valgo","valgau","valgai","valgome"],0,"Ji valgo."],
+["Aš ___ vandens. (norėti)",["noriu","nori","norime","norite"],0,"Aš noriu."],
+["Mes ___ gerti. (norėti)",["norime","noriu","nori","norite"],0,"Mes norime."],
+["Aš geriu ___. (pienas)",["pieną","pienas","pieno","pienu"],0,"Gerti / valgyti + винительный: -as → -ą."],
+["Aš valgau ___. (duona)",["duoną","duona","duonos","duonai"],0,"-a → -ą."],
+["Aš valgau ___. (bandelė)",["bandelę","bandelė","bandelės","bandelei"],0,"-ė → -ę."],
+["Aš valgau ___. (sumuštinis)",["sumuštinį","sumuštinis","sumuštinio","sumuštinę"],0,"-is → -į."],
+["Aš valgau ___. (medus)",["medų","medus","medaus","medą"],0,"-us → -ų."],
+["Aš valgau ___. (žuvis)",["žuvį","žuvis","žuvies","žuvę"],0,"žuvis → žuvį."],
+["Aš geriu ___. (vanduo)",["vandenį","vanduo","vandens","vandenę"],0,"vanduo → vandenį."],
+["Aš nevalgau ___. (mėsa)",["mėsos","mėsą","mėsa","mėsai"],0,"Не + глагол → родительный падеж: -a → -os."],
+["Aš negeriu ___. (pienas)",["pieno","pieną","pienas","pienui"],0,"-as → -o."],
+["Aš nevalgau ___. (varškė)",["varškės","varškę","varškė","varškei"],0,"-ė → -ės."],
+["Aš negeriu ___. (vanduo)",["vandens","vandenį","vanduo","vandeni"],0,"vanduo → vandens."],
+["Aš nevalgau ___. (žuvis)",["žuvies","žuvį","žuvis","žuvų"],0,"žuvis → žuvies."],
+["Aš nevalgau ___. (medus)",["medaus","medų","medus","medo"],0,"-us → -aus."],
+["Aš noriu ___. (kava)",["kavos","kavą","kava","kavai"],0,"После norėti — родительный падеж: -a → -os."],
+["Aš noriu ___. (sūris)",["sūrio","sūrį","sūris","sūriu"],0,"-is → -io."],
+["Valgyk ___! (pyragas)",["pyrago","pyragą","pyragas","pyragu"],0,"«Часть чего-то» — родительный падеж: pyrago."],
+["Gerk ___! (arbata)",["arbatos","arbatą","arbata","arbatai"],0,"Arbata → arbatos."],
+["Aš mėgstu ___. (arbata)",["arbatą","arbatos","arbata","arbatai"],0,"После mėgti — винительный падеж."],
+["Как сказать другу «Ешь!»?",["Valgyk!","Valgykite!","Valgau!","Valgo!"],0,"Tu: -k (valgyk); jūs: -kite (valgykite)."],
+["Как сказать «Пейте!» (на «вы»)?",["Gerkite!","Gerk!","Geriu!","Geria!"],0,"Jūs: -kite."],
+["Как сказать другу «Бери!»?",["Imk!","Imkite!","Imu!","Ima!"],0,"Imti → imk."],
+["Как сказать другу «Налей!»?",["Įpilk!","Įpilkite!","Įpilu!","Įpila!"],0,"Įpilti → įpilk."],
+["Как сказать «Давайте пообедаем вместе!» (мы)?",["Pietaukime!","Pietauk!","Pietaukite!","Pietauja!"],0,"Для «мы»: -kime."],
+["Man patinka ___. (я)",["kava","kavą","kavos","kavai"],0,"После patinka — именительный падеж: man patinka kava."],
+["___ patinka sūris. (он)",["Jam","Jis","Jo","Jį"],0,"Jis → jam."],
+["___ patinka sultys. (она)",["Jai","Ji","Jos","Ją"],0,"Ji → jai."],
+["Ar ___ patinka pyragas? (ты)",["tau","tu","tave","tavo"],0,"Tu → tau."],
+["___ patinka sumuštiniai. (мы)",["Mums","Mes","Mūsų","Mus"],0,"Mes → mums."],
+["Ar ___ patinka pieno produktai? (вам)",["jums","jūs","jūsų","jus"],0,"Jūs → jums."],
+["___ nepatinka kiauliena. (им, м.)",["Jiems","Jie","Jų","Juos"],0,"Jie → jiems, jos → joms."]
+];
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 8.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 7 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
