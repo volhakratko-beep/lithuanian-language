@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 1, урок 8</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 8 · Šiandien eisiu į turgų</h1>
+  <div class="sub">Sėkmės! 1 · рынок, овощи и фрукты, будущее время, мн. ч. (винительный и родительный), цены в евро</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Kiek kainuoja kilogramas?» значит…",["Сколько стоит килограмм?","Сколько весит килограмм?","Где купить килограмм?","Какой это килограмм?"],0,"Kiek kainuoja — «сколько стоит»."],
+["«Prašom duoti obuolių» значит…",["Дайте, пожалуйста, яблок","Я люблю яблоки","Где яблоки?","Яблоки сладкие?"],0,"Prašom duoti — «дайте, пожалуйста»."],
+["«Ar reikia maišelio?» значит…",["Нужен пакетик?","Сколько стоит пакетик?","Где пакетик?","Вам дать сдачу?"],0,"Maišelis — пакетик."],
+["Что отвечает покупатель на «Dar ko nors?», если больше ничего не нужно?",["Viskas.","Prašom.","Kiek kainuoja?","Dar ko nors."],0,"Viskas — «всё»."],
+["Как по-литовски «рынок»?",["turgus","kaina","maišelis","gabaliukas"],0,"Turgus — рынок, kaina — цена."],
+["Как по-литовски «лук» (овощ)?",["svogūnas","česnakas","kopūstas","agurkas"],0,"Svogūnas — лук, česnakas — чеснок."],
+["Как по-литовски «капуста»?",["kopūstas","morka","bulvė","moliūgas"],0,"Kopūstas — капуста."],
+["Как по-литовски «картофель»?",["bulvė","burokėlis","pomidoras","cukinija"],0,"Bulvė — картофель."],
+["Как по-литовски «яблоко»?",["obuolys","kriaušė","citrina","apelsinas"],0,"Obuolys — яблоко, kriaušė — груша."],
+["Как по-литовски «клубника»?",["braškės","avietės","vyšnios","vynuogės"],0,"Braškės — клубника, avietės — малина."],
+["Как по-литовски «сладкий» (о мужчине / предмете м. р.)?",["saldus","rūgštus","šviežias","riebus"],0,"Saldus — сладкий, rūgštus — кислый."],
+["Как по-литовски «свежий» (м. р.)?",["šviežias","senas","žalias","rūkytas"],0,"Šviežias — свежий."],
+["Как по-литовски «красный» (м. р.)?",["raudonas","žalias","geltonas","mėlynas"],0,"Raudonas — красный."],
+["Как по-литовски «жёлтый» (м. р.)?",["geltonas","baltas","mėlynas","raudonas"],0,"Geltonas — жёлтый."],
+["Как по-литовски «копчёный» (м. р.)?",["rūkytas","virtas","keptas","žalias"],0,"Rūkytas — копчёный."],
+["Rytoj aš ___ į turgų. (eiti)",["eisiu","einu","eini","eis"],0,"Будущее время: eisiu."],
+["Rytoj tu ___ į turgų. (eiti)",["eisi","eisiu","eis","eisime"],0,"Tu eisi."],
+["Rytoj jis ___ į turgų. (eiti)",["eis","eisi","eisiu","eisite"],0,"Jis eis."],
+["Rytoj mes ___ į turgų. (eiti)",["eisime","eisiu","eisi","eis"],0,"Mes eisime."],
+["Rytoj jūs ___ į turgų. (eiti)",["eisite","eisime","eisi","eis"],0,"Jūs eisite."],
+["Rytoj aš ___ sriubą. (virti)",["virsiu","verdu","virs","virsi"],0,"Aš virsiu."],
+["Kitą savaitę mes ___ į turgų. (važiuoti)",["važiuosime","važiuojame","važiuosiu","važiuos"],0,"Mes važiuosime."],
+["Rytoj aš ___ mėsą. (kepti)",["kepsiu","kepu","keps","kepsi"],0,"Aš kepsiu."],
+["Ar tu ___ obuolių? (pirkti, будущее)",["pirksi","perki","pirks","pirksiu"],0,"Tu pirksi."],
+["Ji ___ pyragą kitą šeštadienį. (kepti)",["keps","kepa","kepsiu","kepsime"],0,"Ji keps."],
+["Ar jūs ___ pietus namie? (pietauti, будущее)",["pietausite","pietaujate","pietausiu","pietaus"],0,"Jūs pietausite."],
+["Aš ___ bulves. (pirkti, сейчас)",["perku","pirksiu","perka","pirks"],0,"Настоящее время: aš perku."],
+["Mes ___ pomidorus. (pirkti, сейчас)",["perkame","pirksime","perka","perkate"],0,"Mes perkame."],
+["Prašom duoti ___. (pomidorai)",["pomidorų","pomidorus","pomidorai","pomidoras"],0,"Родительный мн. ч.: -ai → -ų."],
+["Prašom duoti ___. (obuoliai)",["obuolių","obuolius","obuoliai","obuolys"],0,"Родительный мн. ч.: -iai → -ių."],
+["Prašom duoti ___. (morkos)",["morkų","morkas","morkos","morka"],0,"Родительный мн. ч.: -os → -ų."],
+["Prašom duoti ___. (bulvės)",["bulvių","bulves","bulvės","bulvė"],0,"Родительный мн. ч.: -ės → -ių."],
+["Prašom duoti ___. (apelsinai)",["apelsinų","apelsinus","apelsinai","apelsinas"],0,"Apelsinai → apelsinų."],
+["Prašom duoti ___. (braškės)",["braškių","braškes","braškės","braškė"],0,"Braškės → braškių."],
+["Aš mėgstu ___. (agurkai)",["agurkus","agurkų","agurkai","agurkas"],0,"Mėgti + винительный мн. ч.: -ai → -us."],
+["Aš mėgstu ___. (morkos)",["morkas","morkų","morkos","morka"],0,"-os → -as."],
+["Aš mėgstu ___. (braškės)",["braškes","braškių","braškės","braškė"],0,"-ės → -es."],
+["Aš mėgstu ___. (burokėliai)",["burokėlius","burokėlių","burokėliai","burokėlis"],0,"-iai → -ius."],
+["Aš mėgstu ___. (bulvės)",["bulves","bulvių","bulvės","bulvė"],0,"-ės → -es."],
+["Aš nemėgstu ___. (svogūnai)",["svogūnų","svogūnus","svogūnai","svogūnas"],0,"Nemėgti + родительный мн. ч.: -ų."],
+["Aš nemėgstu ___. (kopūstai)",["kopūstų","kopūstus","kopūstai","kopūstas"],0,"Kopūstai → kopūstų."],
+["Aš nemėgstu ___. (citrinos)",["citrinų","citrinas","citrinos","citrina"],0,"Citrinos → citrinų."],
+["Aš noriu ___. (vynuogės)",["vynuogių","vynuoges","vynuogės","vynuogė"],0,"Norėti + родительный: vynuogių."],
+["Aš noriu ___. (riešutai)",["riešutų","riešutus","riešutai","riešutas"],0,"Riešutai → riešutų."],
+["Prašom duoti du ___. (moliūgas)",["moliūgus","moliūgai","moliūgų","moliūgas"],0,"Du + винительный мн. ч.: moliūgus."],
+["Prašom duoti dvi ___. (citrina)",["citrinas","citrinos","citrinų","citrinus"],0,"Dvi + винительный мн. ч.: citrinas."],
+["Prašom duoti tris ___. (agurkas)",["agurkus","agurkai","agurkų","agurkas"],0,"Tris agurkus."],
+["Prašom duoti keturias ___. (kriaušė)",["kriaušes","kriaušės","kriaušių","kriaušus"],0,"Keturias kriaušes."],
+["Как сказать «1 евро»?",["vienas euras","vienas eurai","vienas eurų","vieną euras"],0,"1 — vienas euras."],
+["Как сказать «5 евро»?",["penki eurai","penki euras","penki eurų","penkis eurai"],0,"2–9 — eurai: penki eurai."],
+["Как сказать «12 евро»?",["dvylika eurų","dvylika eurai","dvylika euras","dvylika euru"],0,"10–19 и десятки — eurų: dvylika eurų."],
+["Как сказать «20 евро»?",["dvidešimt eurų","dvidešimt eurai","dvidešimt euras","dvidešimt eura"],0,"20 — dvidešimt eurų."],
+["Как сказать «21 евро»?",["dvidešimt vienas euras","dvidešimt vienas eurų","dvidešimt vieni eurai","dvidešimt viena euras"],0,"Если число кончается на 1 — vienas euras."]
+];
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 9.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 8 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
