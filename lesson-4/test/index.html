@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 1, урок 4</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 4 · Kada ir kur susitinkame?</h1>
+  <div class="sub">Sėkmės! 1 · числа, где живёшь и работаешь, prie + родительный, места в городе, gyventi / dirbti / studijuoti</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Kada susitinkame?» значит…",["Когда встречаемся?","Где встречаемся?","Куда идём?","Во сколько встречаемся?"],0,"Kada — «когда», kur — «где», kelintą valandą — «во сколько»."],
+["«Kelintą valandą susitinkame?» значит…",["Во сколько встречаемся?","Когда встречаемся?","Где встречаемся?","Сколько нас?"],0,"Kelintą valandą — «в котором часу»."],
+["Как по-литовски «среда»?",["trečiadienis","antradienis","ketvirtadienis","penktadienis"],0,"Trečiadienis — от trečias «третий»."],
+["Как по-литовски «суббота»?",["šeštadienis","sekmadienis","penktadienis","savaitgalis"],0,"Šeštadienis — суббота, sekmadienis — воскресенье, savaitgalis — выходные."],
+["Какой день идёт после ketvirtadienis?",["penktadienis","trečiadienis","šeštadienis","antradienis"],0,"Ketvirtadienis (четверг) → penktadienis (пятница)."],
+["Мы встречаемся в понедельник: Susitinkame ___.",["pirmadienį","pirmadienis","pirmadienio","pirmadienyje"],0,"Для вопроса «когда?» дни недели ставим в винительный падеж: -is → -į."],
+["Я работаю в субботу: Dirbu ___.",["šeštadienį","šeštadienis","šeštadienio","šeštadienyje"],0,"šeštadienis → šeštadienį."],
+["Мы встречаемся на выходных: Susitinkame ___.",["savaitgalį","savaitgalis","savaitgalio","savaitgalyje"],0,"savaitgalis → savaitgalį."],
+["Как сказать «утром»?",["rytą","rytas","ryto","ryte"],0,"Rytas → rytą (винительный, вопрос «когда?»)."],
+["Как сказать «ночью»?",["naktį","naktis","nakties","naktyje"],0,"Naktis → naktį."],
+["Как сказать «вечером»?",["vakare","vakarą","vakaras","vakaro"],0,"Вечером — особая форма vakare (так в учебнике)."],
+["Einu ___ banką. Какое слово пропущено?",["į","pas","prie","iš"],0,"Į + винительный — «в, куда»."],
+["Einu ___ Paulių. Какое слово пропущено?",["pas","į","prie","iš"],0,"К человеку идём с pas + винительный."],
+["Einu į ___. (bankas)",["banką","bankas","banko","banke"],0,"-as → -ą: bankas → banką."],
+["Važiuoju į ___. (universitetas)",["universitetą","universitetas","universiteto","universitete"],0,"-as → -ą: universitetas → universitetą."],
+["Einame į ___. (kavinė)",["kavinę","kavinė","kavinės","kavinėje"],0,"-ė → -ę: kavinė → kavinę."],
+["Važiuoju į ___. (parduotuvė)",["parduotuvę","parduotuvė","parduotuvės","parduotuvėje"],0,"-ė → -ę: parduotuvė → parduotuvę."],
+["Einu į ___. (mokykla)",["mokyklą","mokykla","mokyklos","mokykloje"],0,"-a → -ą: mokykla → mokyklą."],
+["Važiuojame į ___. (viešbutis)",["viešbutį","viešbutis","viešbučio","viešbutyje"],0,"-is → -į: viešbutis → viešbutį."],
+["Einu į ___. (muziejus)",["muziejų","muziejus","muziejaus","muziejuje"],0,"-us → -ų: muziejus → muziejų."],
+["Važiuoju į ___. (stotis)",["stotį","stotis","stoties","stotyje"],0,"stotis → stotį."],
+["Einu pas ___. (Tomas)",["Tomą","Tomas","Tomo","Tome"],0,"-as → -ą: Tomas → Tomą."],
+["Einu pas ___. (Lina)",["Liną","Lina","Linos","Linoje"],0,"-a → -ą: Lina → Liną."],
+["Einu pas ___. (Eglė)",["Eglę","Eglė","Eglės","Eglėje"],0,"-ė → -ę: Eglė → Eglę."],
+["Einu pas ___. (Rytis)",["Rytį","Rytis","Ryčio","Ryty"],0,"-is → -į: Rytis → Rytį."],
+["Einu pas ___. (profesorius)",["profesorių","profesorius","profesoriaus","profesoriuje"],0,"-ius → -ių: profesorius → profesorių."],
+["Какая форма значит «домой»?",["namo","namie","namas","namuose"],0,"Namo — «домой» (куда?), namie — «дома» (где?)."],
+["Как сказать «в пять часов» (5:00)?",["penktą valandą","penkta valanda","penki valandą","penkių valandą"],0,"Время «когда?» — порядковое число в винительном + valandą."],
+["Как сказать «в три часа» (3:00)?",["trečią valandą","trys valandą","trečia valanda","trečios valandos"],0,"Trečias → trečią."],
+["Как сказать «в восемь часов» (8:00)?",["aštuntą valandą","aštuoni valandą","aštunta valanda","aštuntos valandos"],0,"Aštuntas → aštuntą."],
+["Как сказать «в двенадцать часов»?",["dvyliktą valandą","dvylika valandą","dvylikta valanda","dvyliktos valandos"],0,"Dvyliktas → dvyliktą."],
+["Как сказать «в 15:00» (по 24-часовому формату)?",["penkioliktą valandą","penktą valandą","penkiolika valandą","penkioliktos valandos"],0,"15 — penkioliktas → penkioliktą."],
+["Как сказать «в 20:00»?",["dvidešimtą valandą","dvylikta valandą","dvidešimt valandą","dvidešimtos valandos"],0,"20 — dvidešimtas → dvidešimtą."],
+["Как сказать «в половине девятого» (8:30)?",["pusę devintos","pusę aštuntos","pusė devintos","pusę devynių"],0,"Половина следующего часа: pusę + родительный падеж (devintos)."],
+["Как сказать «в половине восьмого» (7:30)?",["pusę aštuntos","pusę septintos","pusė aštuntos","pusę aštuonių"],0,"7:30 — «половина восьмого»: pusę aštuntos."],
+["«Pusę pirmos» — это…",["12:30","1:30","0:30","13:30"],0,"Pusę pirmos = половина первого = 12:30."],
+["«Pusę trečios» — это…",["2:30","3:30","1:30","3:00"],0,"Pusę trečios = половина третьего = 2:30."],
+["«Prieš pietus» значит…",["до обеда","после обеда","вечером","ночью"],0,"Prieš pietus — до обеда, po pietų — после обеда."],
+["«Po pietų» значит…",["после обеда","до обеда","утром","на выходных"],0,"Po pietų — после обеда."],
+["Какое слово значит «никогда»?",["niekada","visada","kartais","dažnai"],0,"Niekada — никогда, visada — всегда, kartais — иногда, dažnai — часто."],
+["Какое слово значит «редко»?",["retai","dažnai","kasdien","kartu"],0,"Retai — редко, dažnai — часто."],
+["Выберите правильное слово: Kur tu ___? — Į parką.",["eini","einu","eina","einate"],0,"Ты — tu eini."],
+["Мы идём в театр: Mes ___ į teatrą.",["einame","einu","eina","einate"],0,"Mes einame."],
+["Вы едете в аэропорт: Jūs ___ į oro uostą.",["važiuojate","važiuoju","važiuoja","važiuojame"],0,"Jūs važiuojate."],
+["Я спешу: Aš ___.",["skubu","skubi","skuba","skubame"],0,"Aš skubu."],
+["Мы опаздываем: Mes ___.",["vėluojame","vėluoju","vėluoja","vėluojate"],0,"Mes vėluojame."],
+["Что значит «Nieko tokio»?",["Ничего страшного","Ничего нет","Никого нет","Нет проблем у никого"],0,"Nieko tokio — «ничего страшного» (в ответ на опоздание)."],
+["Что значит «Būtinai ateisiu!»?",["Обязательно приду!","Я иду домой!","Я уже пришёл!","Приходи ко мне!"],0,"Būtinai — «обязательно», ateisiu — «приду»."],
+["Чем отличается eiti от važiuoti?",["eiti — идти пешком, važiuoti — ехать","eiti — ехать, važiuoti — идти","одно и то же","eiti — бежать, važiuoti — летать"],0,"Eiti — на ногах, važiuoti — на транспорте."]
+];
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 5.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 4 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
