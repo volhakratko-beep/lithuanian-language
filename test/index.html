@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 1, урок 1</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 1 · Koks jūsų vardas?</h1>
+  <div class="sub">Sėkmės! 1 · приветствия, знакомство, būti, ar / kas / koks</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Laba diena!» — это…",["Добрый день!","Спокойной ночи!","До свидания!","Спасибо."],0,"Laba diena — «добрый день». Labas rytas — «доброе утро», Labas vakaras — «добрый вечер»."],
+["Как ответить на «Atsiprašau!»?",["Nieko tokio!","Labas rytas!","Iki rytojaus!","Labai malonu."],0,"На извинение отвечают Nieko tokio! или Nieko! («ничего страшного»)."],
+["Как ответить на «Ačiū»?",["Prašom.","Atsiprašau.","Sudie.","Taip."],0,"Ačiū — «спасибо», в ответ: Prašom или Nėra už ką."],
+["«Koks jūsų vardas?» значит…",["Как вас зовут?","Какая ваша фамилия?","Откуда вы?","Вы студент?"],0,"Vardas — имя, pavardė — фамилия. Koks jūsų vardas? — «Как вас зовут?»"],
+["Какой вопрос подходит к ответу «Mano pavardė Belovas»?",["Kokia jūsų pavardė?","Koks jūsų vardas?","Kas jūs esate?","Ar jūs esate Belovas?"],0,"Pavardė — женского рода, поэтому kokia: Kokia jūsų pavardė?"],
+["Какое местоимение подходит для «Marija ir Lina»?",["jos","jie","jis","mes"],0,"Jos — «они» только про женщин. Jie — если есть хотя бы один мужчина."],
+["Какое местоимение подходит для «Andrius ir Inga»?",["jie","jos","ji","jūs"],0,"Мужчина и женщина вместе — jie."],
+["Какое местоимение подходит для «aš ir tu»?",["mes","jūs","jie","jos"],0,"Я и ты — это «мы»: mes."],
+["Какое местоимение подходит для «studentas ir studentė»?",["jie","jos","jis","ji"],0,"В группе есть мужчина (studentas), значит jie."],
+["Aš ___ studentas.",["esu","esi","yra","esate"],0,"Būti с aš: esu."],
+["Ar tu ___ ispanas?",["esi","esu","yra","esame"],0,"Būti с tu: esi."],
+["Ar jūs ___ Kristina?",["esate","esi","esame","yra"],0,"Būti с jūs: esate."],
+["Mes ___ čia.",["esame","esate","esu","yra"],0,"Būti с mes: esame."],
+["Ji ___ lietuvė.",["yra","esi","esu","esate"],0,"У jis, ji, jie, jos форма одна: yra."],
+["— Ar jūs esate dėstytoja? — Ne, aš ___ dėstytoja.",["nesu","nesi","nėra","esu"],0,"Отрицание от būti: aš nesu."],
+["— Ar Paulius yra latvis? — Ne, jis ___ latvis.",["nėra","nesu","nesi","nesate"],0,"Отрицание в 3-м лице: nėra."],
+["___ jūs esate Lina? — Taip.",["Ar","Kas","Koks","Kokia"],0,"Ar — частица вопроса «да/нет», на русский не переводится."],
+["___ jis yra? — Jis yra Andrius.",["Kas","Ar","Kokia","Koks"],0,"Kas — «кто»: Kas jis yra?"],
+["___ tavo vardas? — Mano vardas Jonas.",["Koks","Kokia","Kas","Ar"],0,"Vardas — мужского рода, поэтому koks."],
+["Какое слово женского рода?",["studentė","studentas","Tomas","norvegas"],0,"Женский род: окончания -a, -ė (studentė). Мужской: -as, -is, -ys, -us."],
+["«Ji yra prancūzė» значит…",["Она француженка.","Он француз.","Они французы.","Она не француженка."],0,"Prancūzė — француженка, ji — «она», yra — «есть, является»."],
+["Как называется буква Ų?",["u nosinė","u ilgoji","u trumpoji","i nosinė"],0,"Ų — u nosinė. Ū — u ilgoji, U — u trumpoji."],
+["«Man taip pat labai malonu» значит…",["Мне тоже очень приятно.","Мне очень плохо.","Мне нужно идти.","Я не знаю."],0,"Taip pat — «тоже», labai — «очень», malonu — «приятно»."],
+["«Iki rytojaus!» значит…",["До завтра!","Доброе утро!","Спасибо!","Извините!"],0,"Iki rytojaus — «до завтра»."]
+];
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 2.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 1 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
