@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карточки: урок 6 (литовский)</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--again:#b45309}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--again:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:460px;padding:16px 16px 32px}
+h1{font-size:20px;margin:4px 0 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:7px 12px;border-radius:999px;font-size:14px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.stat{color:var(--muted);font-size:14px;margin:6px 0 10px;display:flex;justify-content:space-between}
+.scene{perspective:1000px;height:240px;margin-bottom:14px}
+.card{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d;cursor:pointer}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.back{transform:rotateY(180deg)}
+.word{font-size:32px;font-weight:600;word-break:break-word}
+.word.long{font-size:22px}
+.sub{font-size:18px;color:var(--muted);margin-top:10px}
+.hint{color:var(--muted);font-size:13px;margin-top:14px}
+.btns{display:flex;gap:10px}
+.btn{flex:1;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.again{border-color:var(--again);color:var(--again)}
+.done{text-align:center;padding:50px 10px;border:1px dashed var(--line);border-radius:18px}
+.done b{font-size:22px;display:block;margin-bottom:8px}
+.tools{display:flex;gap:8px;margin-top:12px}
+.tools .btn{padding:10px;font-size:14px}
+.note{color:var(--muted);font-size:13px;margin-top:8px}
+.nav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.arrow{width:56px;height:48px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
+.arrow:disabled{opacity:.35;cursor:default}
+.pos{flex:1;text-align:center;color:var(--muted);font-size:15px}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Урок 6 · Mano sesers vardas yra Lina</h1>
+  <div class="row" id="cats"></div>
+  <div class="row" id="dirs"></div>
+  <div class="stat"><span id="left"></span><span id="known"></span></div>
+  <div id="stage"></div>
+  <div class="tools">
+    <button class="btn" id="shuffle">Перемешать</button>
+    <button class="btn" id="reset">Начать заново</button>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+<script>
+var DATA=[];
+function add(cat,list,fn){list.forEach(function(x){var r=fn(x);DATA.push([r[0],r[1],cat])})}
+function id(x){return x}
+
+add("adj",[
+["aukštas, aukšta","высокий, -ая"],["žemas, žema","низкий, -ая"],["draugiškas, draugiška","дружелюбный, -ая"],
+["geras, gera","добрый, хороший"],["jaunas, jauna","молодой, -ая"],["senas, sena","старый, -ая"],
+["linksmas, linksma","весёлый, -ая"],["liūdnas, liūdna","грустный, -ая"],["mažas, maža","маленький, -ая"],
+["didelis, didelė","большой, -ая"],["mielas, miela","милый, -ая"],["protingas, protinga","умный, -ая"],
+["gražus, graži","красивый, -ая"],["įdomus, įdomi","интересный, -ая"],["malonus, maloni","приятный, -ая"],
+["puikus, puiki","отличный, -ая"],["šviesus, šviesi","светлый, светловолосый"],["tamsus, tamsi","тёмный, -ая"],
+["vidurinis, vidurinė","средний, средняя"],
+["jaunesnis, jaunesnė","младше"],["jauniausias, jauniausia","самый младший"],
+["vyresnis, vyresnė","старше"],["vyriausias, vyriausia","самый старший"],
+["tas, ta","тот, та"],["tie, tos","те (м., ж.)"]
+],id);
+
+add("phrases",[
+["Kokia yra tavo šeima?","Какая у тебя семья?"],
+["Mano šeima yra didelė.","Моя семья большая."],
+["Ar tavo šeima didelė? — Ne, maža.","Твоя семья большая? — Нет, маленькая."],
+["Koks tavo brolio vardas?","Как зовут твоего брата?"],
+["Mano brolio vardas yra Liudas.","Моего брата зовут Людас."],
+["Koks jos vardas? — Rūta.","Как её зовут? — Рута."],
+["Koks jo vardas? — Laurynas.","Как его зовут? — Лауринас."],
+["Kieno vaikas yra tas berniukas?","Чей ребёнок этот мальчик?"],
+["Tai mano brolio sūnus.","Это сын моего брата."],
+["Kokia miela mergaitė!","Какая милая девочка!"],
+["Aš esu jauniausias vaikas šeimoje.","Я самый младший ребёнок в семье."],
+["Brolis yra vyriausias.","Брат самый старший."],
+["Ar tavo brolis jaunesnis už tave?","Твой брат младше тебя?"],
+["Ne, jis yra vyresnis už mane.","Нет, он старше меня."],
+["Jūsų šeima didelė! — Ir jūsų nemaža!","Ваша семья большая! — И ваша немаленькая!"],
+["Malonu.","Приятно (познакомиться)."]
+],id);
+
+add("gen",[
+["tėvas","отец","tėvo"],["mama","мама","mamos"],["brolis","брат","brolio"],["sesuo","сестра","sesers"],
+["senelis","дедушка","senelio"],["senelė","бабушка","senelės"],["žmona","жена","žmonos"],["vyras","муж","vyro"],
+["sūnus","сын","sūnaus"],["duktė","дочь","dukters"],["šuo","собака","šuns"],["katė","кошка","katės"],
+["teta","тётя","tetos"],["dėdė","дядя","dėdės"],["pusbrolis","двоюродный брат","pusbrolio"],["pusseserė","двоюродная сестра","pusseserės"]
+],function(x){return [x[0]+"\n"+x[1]+" · «чей / чья?»","… "+x[2]+" vardas"]});
+
+add("poss",[
+["aš","я","mano"],["tu","ты","tavo"],["jis","он","jo"],["ji","она","jos"],["mes","мы","mūsų"],["jūs","вы","jūsų"],["jie, jos","они","jų"]
+],function(x){return [x[0]+"\n"+x[1]+" · «чей?»",x[2]]});
+
+add("fem",[
+["geras brolis","gera sesuo"],["gražus vaikas","graži sesuo"],["didelis berniukas","didelė mergaitė"],
+["aukštas vyras","aukšta moteris"],["protingas šuo","protinga katė"],["malonus žmogus","maloni moteris"],
+["įdomus vyras","įdomi mergina"],["puikus profesorius","puiki močiutė"],["vidurinis vaikas","vidurinė sesuo"],
+["mielas senelis","miela senelė"],["jaunas brolis","jauna sesuo"],["senas draugas","sena draugė"]
+],function(x){return [x[0]+"\n«жен. род»",x[1]]});
+
+add("pl",[
+["geras brolis","geri broliai"],["gražus vaikas","gražūs vaikai"],["didelis berniukas","dideli berniukai"],
+["vidurinis vaikas","viduriniai vaikai"],["mažas berniukas","maži berniukai"],["senas draugas","seni draugai"],
+["mielas žmogus","mieli žmonės"],["įdomus vyras","įdomūs vyrai"],["puikus profesorius","puikūs profesoriai"],
+["gera mama","geros mamos"],["graži sesuo","gražios seserys"],["didelė mergaitė","didelės mergaitės"],
+["maža mergaitė","mažos mergaitės"],["sena draugė","senos draugės"],["jauna moteris","jaunos moterys"],
+["įdomi mergina","įdomios merginos"],["vidurinė sesuo","vidurinės seserys"]
+],function(x){return [x[0]+"\n«мн. число»",x[1]]});
+
+var cat="all",dir="lt",deck=[],known=0,flipped=false,pos=0;
+var CATS=[["all","Все"],["adj","Прилагательные"],["phrases","Фразы"],["gen","Чей? (род. п.)"],["poss","Mano, tavo…"],["fem","Жен. род"],["pl","Мн. число"]];
+var DIRS=[["lt","Литовский → русский"],["ru","Русский → литовский"]];
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function build(){
+  deck=DATA.filter(function(d){return cat==="all"||d[2]===cat});
+  shuf(deck);known=0;flipped=false;pos=0;render();
+}
+function chips(id,list,cur,fn){
+  var el=document.getElementById(id);el.innerHTML="";
+  list.forEach(function(x){
+    var b=document.createElement("button");b.className="chip"+(x[0]===cur?" on":"");b.textContent=x[1];
+    b.onclick=function(){fn(x[0])};el.appendChild(b);
+  });
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function side(txt){
+  var parts=txt.split("\n");
+  var main=parts[0];
+  var h='<div class="word'+(main.length>18?' long':'')+'">'+esc(main)+'</div>';
+  if(parts[1])h+='<div class="sub">'+esc(parts[1])+'</div>';
+  return h;
+}
+function render(){
+  chips("cats",CATS,cat,function(v){cat=v;build()});
+  chips("dirs",DIRS,dir,function(v){dir=v;flipped=false;render()});
+  document.getElementById("left").textContent="Осталось: "+deck.length;
+  document.getElementById("known").textContent="Знаю: "+known;
+  var st=document.getElementById("stage");
+  if(!deck.length){
+    st.innerHTML='<div class="done"><b>Готово!</b>Вы прошли все карточки. Нажмите «Начать заново», чтобы повторить.</div>';
+    return;
+  }
+  if(pos>=deck.length)pos=deck.length-1;
+  if(pos<0)pos=0;
+  var c=deck[pos],front,back,fixed=(c[2]==="gen"||c[2]==="poss"||c[2]==="fem"||c[2]==="pl");
+  if(fixed||dir==="lt"){front=c[0];back=c[1]}else{front=c[1];back=c[0]}
+  document.getElementById("note").textContent=fixed?"В этих карточках направление всегда одно: форма → нужная форма.":"";
+  st.innerHTML='<div class="nav"><button class="arrow" id="prev" aria-label="Предыдущая карточка"'+(pos===0?' disabled':'')+'>←</button>'
+    +'<div class="pos">'+(pos+1)+' из '+deck.length+'</div>'
+    +'<button class="arrow" id="next" aria-label="Следующая карточка"'+(pos===deck.length-1?' disabled':'')+'>→</button></div>'
+    +'<div class="scene"><div class="card'+(flipped?' flip':'')+'" id="card">'
+    +'<div class="face">'+side(front)+'<div class="hint">нажмите, чтобы перевернуть</div></div>'
+    +'<div class="face back">'+side(back)+'</div></div></div>'
+    +'<div class="btns"><button class="btn again" id="again">Повторить</button><button class="btn ok" id="ok">Знаю</button></div>';
+  var card=document.getElementById("card");
+  card.onclick=function(){if(swiped){swiped=false;return}flip()};
+  card.addEventListener("touchstart",function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+  card.addEventListener("touchend",function(e){
+    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;go(dx<0?1:-1)}
+  });
+  document.getElementById("prev").onclick=function(){go(-1)};
+  document.getElementById("next").onclick=function(){go(1)};
+  document.getElementById("ok").onclick=function(){deck.splice(pos,1);known++;flipped=false;render()};
+  document.getElementById("again").onclick=function(){deck.push(deck.splice(pos,1)[0]);flipped=false;render()};
+}
+var tx=0,ty=0,swiped=false;
+function flip(){var el=document.getElementById("card");if(!el)return;flipped=!flipped;el.classList.toggle("flip")}
+function go(step){
+  var n=pos+step;
+  if(n<0||n>=deck.length)return;
+  pos=n;flipped=false;render();
+}
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft"){go(-1)}
+  else if(e.key==="ArrowRight"){go(1)}
+  else if((e.key===" "||e.key==="Enter")&&e.target===document.body){e.preventDefault();flip()}
+});
+document.getElementById("shuffle").onclick=function(){shuf(deck);flipped=false;pos=0;render()};
+document.getElementById("reset").onclick=build;
+build();
+</script>
+</body>
+</html>
