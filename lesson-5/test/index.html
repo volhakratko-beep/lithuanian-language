@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 1, урок 5</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 5 · Čia mano šeima</h1>
+  <div class="sub">Sėkmės! 1 · семья, turiu / neturiu, множественное число, числа + существительные, turėti / mylėti / žiūrėti</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Ar tu turi brolį?» значит…",["У тебя есть брат?","Это твой брат?","Где твой брат?","Ты любишь брата?"],0,"Turėti — «иметь»: Ar tu turi brolį? — «У тебя есть брат?»"],
+["«Aš neturiu sesers» значит…",["У меня нет сестры","У меня есть сестра","Это не моя сестра","Я не люблю сестру"],0,"Neturiu + родительный падеж: «нет»."],
+["Как по-литовски «семья»?",["šeima","giminės","tėvai","vaikai"],0,"Šeima — семья, giminės — родственники."],
+["Кто такой «senelis»?",["дедушка","дядя","брат","муж"],0,"Senelis — дедушка, senelė / močiutė — бабушка."],
+["Кто такая «pusseserė»?",["двоюродная сестра","племянница","тётя","дочь"],0,"Pusbrolis / pusseserė — двоюродные брат и сестра."],
+["Кто такая «dukterėčia»?",["племянница","внучка","дочь","сестра"],0,"Dukterėčia — племянница, sūnėnas — племянник."],
+["Как по-литовски «жена»?",["žmona","moteris","mergina","mergaitė"],0,"Žmona — жена, vyras — муж."],
+["Как по-литовски «дядя»?",["dėdė","teta","senelis","tėvas"],0,"Dėdė — дядя, teta — тётя."],
+["Кто такой «mokinys»?",["школьник","студент","учитель","мальчик"],0,"Mokinys — школьник, studentas — студент."],
+["Какое слово значит «собака»?",["šuo","katė","vaikas","gyvūnas"],0,"Šuo — собака, katė — кошка."],
+["Aš turiu ___. (brolis)",["brolį","brolis","brolio","broliui"],0,"Turiu + винительный: -is → -į."],
+["Aš turiu ___. (sesuo)",["seserį","sesuo","sesers","seseria"],0,"Sesuo → seserį (особая форма)."],
+["Aš turiu ___. (draugas)",["draugą","draugas","draugo","draugu"],0,"-as → -ą."],
+["Aš turiu ___. (teta)",["tetą","teta","tetos","tetai"],0,"-a → -ą."],
+["Aš turiu ___. (pusseserė)",["pusseserę","pusseserė","pusseserės","pusseserą"],0,"-ė → -ę."],
+["Aš turiu ___. (sūnus)",["sūnų","sūnus","sūnaus","sūną"],0,"-us → -ų."],
+["Aš turiu ___. (duktė)",["dukterį","duktę","dukters","duktė"],0,"Duktė → dukterį (особая форма)."],
+["Aš turiu ___. (dėdė)",["dėdę","dėdė","dėdės","dėdą"],0,"-ė → -ę."],
+["Aš neturiu ___. (brolis)",["brolio","brolį","brolis","broliui"],0,"Neturiu + родительный: -is → -io."],
+["Aš neturiu ___. (sesuo)",["sesers","seserį","sesuo","seserys"],0,"Sesuo → sesers."],
+["Aš neturiu ___. (draugas)",["draugo","draugą","draugas","draugu"],0,"-as → -o."],
+["Aš neturiu ___. (teta)",["tetos","tetą","teta","tetai"],0,"-a → -os."],
+["Aš neturiu ___. (duktė)",["dukters","dukterį","duktės","duktė"],0,"Duktė → dukters."],
+["Aš neturiu ___. (sūnus)",["sūnaus","sūnų","sūnus","sūno"],0,"-us → -aus."],
+["Aš neturiu ___. (žmona)",["žmonos","žmoną","žmona","žmonai"],0,"-a → -os."],
+["Mes ___ senelį. Какая форма turėti?",["turime","turiu","turite","turi"],0,"Mes turime."],
+["Ar jūs ___ dukterį? Какая форма turėti?",["turite","turime","turiu","turi"],0,"Jūs turite."],
+["Tu ___ brolį. Какая форма turėti?",["turi","turiu","turime","turite"],0,"Tu turi."],
+["Aš labai ___ mamą. (mylėti)",["myliu","myli","mylime","mylite"],0,"Aš myliu."],
+["Vakare jis ___ televizorių. (žiūrėti)",["žiūri","žiūriu","žiūrime","žiūrite"],0,"Jis žiūri."],
+["Mes ___ prie tilto. (stovėti)",["stovime","stoviu","stovi","stovite"],0,"Mes stovime."],
+["Jūs ___ parke. (sėdėti)",["sėdite","sėdžiu","sėdi","sėdime"],0,"Jūs sėdite."],
+["Мн. ч. от «brolis»:",["broliai","broliams","broliais","brolį"],0,"-is → -iai."],
+["Мн. ч. от «tėvas»:",["tėvai","tėvos","tėvas","tėviai"],0,"-as → -ai: tėvai (родители)."],
+["Мн. ч. от «teta»:",["tetos","tetai","tetas","tetoms"],0,"-a → -os."],
+["Мн. ч. от «sesuo»:",["seserys","seseris","sesers","sesuos"],0,"Sesuo → seserys."],
+["Мн. ч. от «duktė»:",["dukterys","dukterės","dukteris","dukters"],0,"Duktė → dukterys."],
+["Мн. ч. от «sūnus»:",["sūnūs","sūnai","sūnus","sūnaus"],0,"-us → -ūs."],
+["Мн. ч. от «šeima»:",["šeimos","šeimai","šeimas","šeimų"],0,"-a → -os."],
+["Мн. ч. от «moteris»:",["moterys","moteriai","moteris","moters"],0,"Moteris → moterys."],
+["Du mano ___ gyvena Vokietijoje. (brolis)",["broliai","brolius","brolis","brolio"],0,"Именительный мн. ч.: du broliai."],
+["Dvi mano ___ gyvena Vilniuje. (sesuo)",["seserys","seseris","sesers","sesuo"],0,"Dvi seserys."],
+["Какое число стоит с «sesuo» (жен. р.): «___ seserys»?",["keturios","keturi","keturis","keturias"],0,"Женский род: keturios seserys; мужской: keturi broliai."],
+["Какое число стоит с «broliai» (муж. р.): «___ broliai»?",["keturi","keturios","keturis","keturias"],0,"Мужской род: keturi broliai."],
+["Aš turiu du ___. (brolis)",["brolius","broliai","brolį","brolio"],0,"Винительный мн. ч.: -is → -ius."],
+["Aš turiu dvi ___. (sesuo)",["seseris","seserys","seserį","sesers"],0,"Винительный мн. ч.: seseris."],
+["Aš turiu tris ___. (draugas)",["draugus","draugai","draugą","draugo"],0,"-as → -us."],
+["Aš turiu keturias ___. (teta)",["tetas","tetos","tetą","tetai"],0,"-a → -as."],
+["Aš turiu penkis ___. (vaikas)",["vaikus","vaikai","vaiką","vaiko"],0,"-as → -us."],
+["Какое слово значит «эти» (о мальчиках)?",["šie","šios","šis","ši"],0,"Šie — м. р. мн. ч.; šios — ж. р. мн. ч."],
+["Какое слово значит «эта» (о девочке)?",["ši","šis","šie","šios"],0,"Ši — ж. р. ед. ч.; šis — м. р."],
+["«Mano tėvai gyvena Ukrainoje» значит…",["Мои родители живут в Украине","Мой отец живёт в Украине","Мои дети живут в Украине","Мои братья в Украине"],0,"Tėvai — родители."]
+];
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 6.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 5 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
