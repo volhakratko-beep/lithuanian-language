@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 2, урок 11</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../../" title="Урок 1">1</a><a href="../../lesson-2/" title="Урок 2">2</a><a href="../../lesson-3/" title="Урок 3">3</a><a href="../../lesson-4/" title="Урок 4">4</a><a href="../../lesson-5/" title="Урок 5">5</a><a href="../../lesson-6/" title="Урок 6">6</a><a href="../../lesson-7/" title="Урок 7">7</a><a href="../../lesson-8/" title="Урок 8">8</a><a href="../../lesson-9/" title="Урок 9">9</a><a href="../../lesson-10/" title="Урок 10">10</a><a href="../../lesson-11/" class="cur" aria-current="page" title="Урок 11">11</a><a href="../../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 11 · Geros kelionės!</h1>
+  <div class="sub">Sėkmės! 2 · машина, заправка, автосервис, аренда, norėčiau / galėčiau, po + родительный, на какой срок (дательный)</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["«Norėčiau išsinuomoti automobilį» значит…",["Я хотел бы арендовать автомобиль","Я арендовал автомобиль","Я арендую автомобиль завтра","Где арендовать автомобиль?"],0,"Norėčiau — «я хотел бы» (условное наклонение), išsinuomoti — арендовать."],
+["Как сказать «Не работают тормоза»?",["Neveikia stabdžiai.","Neveikia valytuvai.","Sugedo padangos.","Nuleido padangą."],0,"Stabdžiai — тормоза; valytuvai — дворники."],
+["Что значит «Neveikia valytuvai»?",["Не работают дворники","Не работают тормоза","Не работает руль","Спустила шина"],0,"Valytuvai — дворники."],
+["Что значит «Nuleido padangą»?",["Спустила шина","Сломался руль","Нужна мойка","Закончился бензин"],0,"Padanga — шина; nuleido — спустила."],
+["Что такое «degalinė»?",["заправка","автомойка","автосервис","стоянка"],0,"Degalinė — заправка; degalai — топливо."],
+["Что такое «plovykla»?",["мойка","заправка","автосервис","прокат"],0,"Automobilių plovykla — автомойка."],
+["Что такое «autoservisas»?",["автосервис","заправка","мойка","стоянка"],0,"Autoservisas / automobilių taisykla — автосервис."],
+["Что значит «rakteliai»?",["ключи","руль","салон","права"],0,"Rakteliai — ключи (от машины)."],
+["Что значит «vairas»?",["руль","шина","тормоз","дворник"],0,"Vairas — руль; vairuotojas — водитель."],
+["Что значит «vairuotojo pažymėjimas»?",["водительские права","страховка","паспорт","техпаспорт"],0,"Vairuotojo pažymėjimas — водительские права."],
+["Что значит «automobilio draudimas»?",["страховка автомобиля","аренда автомобиля","мойка автомобиля","ремонт автомобиля"],0,"Draudimas — страхование, страховка."],
+["Что значит «para»?",["сутки","неделя","месяц","час"],0,"Para — 24 часа, сутки."],
+["Какое слово означает «бензин»?",["benzinas","dyzelinas","dujos","oras"],0,"Benzinas — бензин; dyzelinas — дизель; dujos — газ."],
+["«Kelinta kolonėlė? — Trečia.» значит…",["Какая колонка? — Третья.","Сколько стоит? — Три евро.","Где колонка? — Справа.","Когда? — В три."],0,"Kelinta — какая по счёту; trečia — третья."],
+["Какое слово противоположно «naujas»?",["senas","švarus","ilgas","laisvas"],0,"Naujas — новый, senas — старый."],
+["Какое слово противоположно «mokamas»?",["nemokamas","užimtas","draudžiama","brangus"],0,"Mokamas — платный, nemokamas — бесплатный."],
+["Какое слово противоположно «švarus»?",["nešvarus","laisvas","trumpas","naujas"],0,"Švarus — чистый, nešvarus — грязный."],
+["Какое слово противоположно «užimtas»?",["laisvas","senas","ilgas","greitas"],0,"Užimta — занято; laisva — свободно."],
+["Что значит «Čia sustoti draudžiama»?",["Здесь останавливаться запрещено","Здесь остановка рядом","Здесь можно остановиться","Здесь платная стоянка"],0,"Draudžiama — запрещено; galima — можно."],
+["Что значит «išskyrus»?",["кроме","после","через","вместо"],0,"Eismas draudžiamas, išskyrus dviračius — движение запрещено, кроме велосипедов."],
+["Что значит «sugesti»?",["сломаться","починить","сесть","уехать"],0,"Sugedo automobilis — сломалась машина."],
+["Что значит «pataisyti»?",["починить","помыть","арендовать","записать"],0,"Pataisyti / suremontuoti — починить."],
+["Что значит «nuplauti automobilį»?",["помыть машину","арендовать машину","починить машину","заправить машину"],0,"Nuplauti — вымыть."],
+["Что значит «užrašyti»?",["записать (на приём)","показать","остановиться","вымыть"],0,"Galiu jus užrašyti antradienį — могу записать вас на вторник."],
+["Что значит «parodyti»?",["показать","остановить","вести","налить"],0,"Prašom parodyti dokumentą — покажите документ."],
+["Что значит «pilti degalus»?",["заливать топливо","мыть машину","чинить машину","арендовать машину"],0,"Ar degalų pylėte? — Вы заправлялись?"],
+["Форма «aš» от norėti в условном наклонении:",["norėčiau","norėtum","norėtų","norėtumėte"],0,"Aš norėčiau."],
+["Форма «tu» от norėti в условном наклонении:",["norėtum","norėčiau","norėtų","norėtumėte"],0,"Tu norėtum."],
+["Форма «jis» от norėti в условном наклонении:",["norėtų","norėtum","norėčiau","norėtume"],0,"Jis / ji / jie / jos norėtų."],
+["Форма «mes» от norėti в условном наклонении:",["norėtume","norėtumėte","norėčiau","norėtų"],0,"Mes norėtume (или norėtumėme)."],
+["Форма «jūs» от norėti в условном наклонении:",["norėtumėte","norėtume","norėtum","norėčiau"],0,"Jūs norėtumėte — вежливая форма."],
+["Форма «aš» от galėti в условном наклонении:",["galėčiau","galėtum","galėtų","galėčiu"],0,"Aš galėčiau."],
+["Форма «jūs» от galėti в условном наклонении:",["galėtumėte","galėčiau","galėtum","galėtų"],0,"Ar galėtumėte padėti? — Не могли бы вы помочь?"],
+["Какой вариант вежливее?",["Ar galėtumėte suremontuoti mašiną?","Ar galite suremontuoti mašiną?","Suremontuokite mašiną!","Reikia suremontuoti mašiną."],0,"Условное наклонение звучит вежливее."],
+["Ar tu ___ man padėti? (galėti, условное)",["galėtum","galėtų","galėčiau","galėtumėte"],0,"Tu galėtum."],
+["Jie ___ nuvažiuoti į Varšuvą. (norėti, условное)",["norėtų","norėtum","norėčiau","norėtumėte"],0,"Jie norėtų."],
+["Aš ___ užsirašyti į plovyklą. (norėti, условное)",["norėčiau","norėtų","norėtum","norėtume"],0,"Aš norėčiau."],
+["«Po valandos» значит…",["через час","час назад","в течение часа","на час"],0,"Po + родительный падеж — «через, после»."],
+["Susitinkame ___ darbo.",["po","prie","su","be"],0,"Po darbo — после работы."],
+["Родительный падеж от «valanda»:",["valandos","valandai","valandą","valandoje"],0,"po valandos."],
+["Родительный падеж от «savaitė»:",["savaitės","savaitei","savaitę","savaitėje"],0,"po savaitės."],
+["Родительный падеж от «mėnuo»:",["mėnesio","mėnesiui","mėnuo","mėnesį"],0,"po mėnesio."],
+["Родительный падеж от «darbas»:",["darbo","darbui","darbą","darbe"],0,"po darbo."],
+["Родительный падеж от «savaitgalis»:",["savaitgalio","savaitgaliui","savaitgalį","savaitgalyje"],0,"po savaitgalio."],
+["Как сказать «через две недели»?",["po dviejų savaičių","po dvi savaitės","po dviem savaitėms","po dviejų savaitės"],0,"После числительных 2–9 — родительный мн. ч.: dviejų savaičių."],
+["Родительный падеж от «dvi»:",["dviejų","dviem","dvi","dviejos"],0,"dvi → dviejų."],
+["Родительный падеж от «trys»:",["trijų","trims","trys","trejų"],0,"trys → trijų."],
+["Родительный падеж от «keturios»:",["keturių","keturioms","keturios","keturias"],0,"keturios → keturių."],
+["Родительный падеж от «penkios»:",["penkių","penkioms","penkios","penkias"],0,"penkios → penkių."],
+["Как сказать «через пять минут»?",["po penkių minučių","po penkios minutės","po penkioms minutėms","po penkių minutės"],0,"po penkių minučių."],
+["Как сказать «через три часа»?",["po trijų valandų","po trys valandos","po trims valandoms","po trijų valandos"],0,"po trijų valandų."],
+["Как сказать «через десять минут»?",["po dešimt minučių","po dešimčiai minučių","po dešimt minutės","po dešimties minutėms"],0,"Для 10+ используется dešimt + родительный мн. ч."],
+["Autobusas atvažiuos po ___ minučių. (4)",["keturių","keturioms","keturios","keturias"],0,"po keturių minučių."],
+["«Kuriam laikui?» значит…",["На какой срок?","Который час?","Когда?","Сколько стоит?"],0,"Kuriam laikui? — на какое время / на какой срок."],
+["Norėčiau išsinuomoti mašiną ___. (para)",["parai","paros","parą","para"],0,"Дательный падеж — срок: parai."],
+["Norėčiau išsinuomoti mašiną ___. (savaitė)",["savaitei","savaitės","savaitę","savaitė"],0,"savaitė → savaitei."],
+["Norėčiau išsinuomoti mašiną ___. (mėnuo)",["mėnesiui","mėnesio","mėnesį","mėnuo"],0,"mėnuo → mėnesiui."],
+["Norėčiau išsinuomoti mašiną ___. (diena)",["dienai","dienos","dieną","diena"],0,"diena → dienai."],
+["Дательный падеж от «dvi paros»:",["dviem paroms","dviejų parų","dvi paros","dviem parai"],0,"Для срока: dviem paroms."],
+["Дательный падеж от «trys dienos»:",["trims dienoms","trijų dienų","trys dienos","trims dienos"],0,"trims dienoms."],
+["Дательный падеж от «penkios savaitės»:",["penkioms savaitėms","penkių savaičių","penkios savaitės","penkioms savaičių"],0,"penkioms savaitėms."],
+["Как сказать «на неделю»?",["savaitei","po savaitės","savaitės","savaitė"],0,"Kuriam laikui? — savaitei."],
+["Traukinys išvyksta ___. (через три минуты)",["po trijų minučių","trims minutėms","po trys minutės","po trijų minutės"],0,"«Через» — po + родительный: po trijų minučių."],
+["Rezervavau mašiną ___. (на две недели)",["dviem savaitėms","dviejų savaičių","po dviejų savaičių","dvi savaitės"],0,"«На срок» — дательный: dviem savaitėms."],
+["Что значит «Neviršykite leistino greičio!»?",["Не превышайте разрешённую скорость!","Не останавливайтесь!","Держитесь правой стороны!","Включите дворники!"],0,"Viršyti greitį — превысить скорость."]
+];
+
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 12.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 11 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
