@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 2, урок 10</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../../" title="Урок 1">1</a><a href="../../lesson-2/" title="Урок 2">2</a><a href="../../lesson-3/" title="Урок 3">3</a><a href="../../lesson-4/" title="Урок 4">4</a><a href="../../lesson-5/" title="Урок 5">5</a><a href="../../lesson-6/" title="Урок 6">6</a><a href="../../lesson-7/" title="Урок 7">7</a><a href="../../lesson-8/" title="Урок 8">8</a><a href="../../lesson-9/" title="Урок 9">9</a><a href="../../lesson-10/" class="cur" aria-current="page" title="Урок 10">10</a><a href="../../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 10 · Kaip nuvažiuoti į universitetą?</h1>
+  <div class="sub">Sėkmės! 2 · транспорт, на чём едем (творительный), порядковые числа, reikia + инфинитив, направо / справа</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["Как сказать «Я еду на автобусе»?",["Važiuoju autobusu.","Važiuoju autobusas.","Važiuoju autobusą.","Važiuoju autobuso."],0,"Средство передвижения — творительный падеж: autobusas → autobusu."],
+["Творительный падеж от traukinys:",["traukiniu","traukinys","traukinį","traukinio"],0,"-ys → -iu: traukiniu."],
+["Творительный падеж от automobilis:",["automobiliu","automobilis","automobilį","automobilio"],0,"-is → -iu: automobiliu."],
+["Творительный падеж от dviratis:",["dviračiu","dviratu","dviratiu","dviračis"],0,"dviratis → dviračiu (t → č)."],
+["Творительный падеж от mašina:",["mašina","mašinu","mašiną","mašinos"],0,"Окончание -a остаётся -a: važiuoju mašina."],
+["Какое слово не меняется в творительном падеже?",["taksi","autobusas","traukinys","dviratis"],0,"Taksi и metro не изменяются."],
+["Как сказать «Я иду пешком»?",["Einu pėsčiomis.","Važiuoju pėsčiomis.","Einu pėsčias.","Skrendu pėsčiomis."],0,"Eiti pėsčiomis — идти пешком."],
+["Как сказать «Мы полетим самолётом»?",["Skrisime lėktuvu.","Važiuosime lėktuvu.","Eisime lėktuvu.","Skrisime lėktuvas."],0,"Skristi — лететь; lėktuvas → lėktuvu."],
+["Как сказать «Я еду на велосипеде»?",["Važiuoju dviračiu.","Važiuoju dviratis.","Važiuoju dviračio.","Važiuoju dviratį."],0,"Dviratis → dviračiu."],
+["Как сказать «Я еду на самокате»?",["Važiuoju paspirtuku.","Važiuoju paspirtukas.","Važiuoju paspirtuką.","Važiuoju paspirtuko."],0,"Paspirtukas → paspirtuku."],
+["Ar į darbą važiuoji ___? (троллейбус)",["troleibusu","troleibusas","troleibusą","troleibuso"],0,"Troleibusas → troleibusu."],
+["Kaip važiuosime į Kauną? — ___.",["Traukiniu.","Traukinys.","Traukinį.","Traukinio."],0,"Ответ на «kaip?» — творительный: traukiniu."],
+["Каким будет «пятый автобус» в ответе на «kaip?»?",["penktu autobusu","penktas autobusas","penktą autobusą","penkto autobuso"],0,"Порядковое числительное тоже в творительном: penktu autobusu."],
+["Koks autobusas važiuoja į stotį? — ___ (7).",["Septintas.","Septintu.","Septynis.","Septyni."],0,"На «koks?» — именительный: septintas."],
+["Kaip nuvažiuoti į centrą? — Reikia važiuoti ___ autobusu. (2)",["antru","antras","antrą","du"],0,"Antras → antru."],
+["Творительный от «trečias»:",["trečiu","trečias","trečią","trečio"],0,"trečias → trečiu."],
+["Творительный от «ketvirtas»:",["ketvirtu","ketvirtas","ketvirtą","ketvirto"],0,"ketvirtas → ketvirtu."],
+["Творительный от «šeštas»:",["šeštu","šestu","šeštą","šešis"],0,"šeštas → šeštu."],
+["Творительный от «vienuoliktas»:",["vienuoliktu","vienuoliktas","vienuolika","vienuolikos"],0,"vienuoliktas → vienuoliktu."],
+["Творительный от «dvidešimtas»:",["dvidešimtu","dvidešimtas","dvidešimt","dvidešimto"],0,"dvidešimtas → dvidešimtu."],
+["Как сказать «на двадцать первом троллейбусе»?",["dvidešimt pirmu troleibusu","dvidešimt pirmas troleibusas","dvidešimt vienu troleibusu","dvidešimt pirmą troleibusą"],0,"21-й — dvidešimt pirmas → dvidešimt pirmu."],
+["Как сказать «на тридцать первом автобусе»?",["trisdešimt pirmu autobusu","trisdešimt pirmas autobusas","trisdešimt vienu autobusu","trisdešimt pirmą autobusą"],0,"trisdešimt pirmu autobusu."],
+["Как сказать «на сто восьмом автобусе»?",["šimtas aštuntu autobusu","šimtas aštuntas autobusas","šimtą aštuntą autobusą","šimto aštunto autobuso"],0,"Так в книге: šimtas aštuntu autobusu."],
+["Aš važiuoju ___ troleibusu. (18)",["aštuonioliktu","aštuonioliktas","aštuoniolika","aštuonioliktą"],0,"aštuonioliktas → aštuonioliktu."],
+["Pas draugę važiuoju ___ autobusu. (9)",["devintu","devintas","devynis","devintą"],0,"devintas → devintu."],
+["Что значит «reikia»?",["нужно","хочу","можно","есть"],0,"Reikia — нужно, надо."],
+["После «reikia» глагол стоит в форме…",["инфинитива (važiuoti)","1-го лица (važiuoju)","3-го лица (važiuoja)","повелительного наклонения"],0,"Reikia važiuoti, reikia eiti — инфинитив."],
+["Kaip nueiti į banką? — Reikia ___ tiesiai.",["eiti","einu","eina","eikite"],0,"Reikia + инфинитив: eiti."],
+["Какой вариант верен?",["Reikia važiuoti antru autobusu.","Reikia važiuoju antru autobusu.","Reikia važiuoja antras autobusas.","Reikia važiuoti antras autobusas."],0,"Reikia + инфинитив + творительный."],
+["«Muziejus bus dešinėje» — это…",["Музей будет справа","Музей будет слева","Поверните направо","Идите прямо"],0,"Dešinėje — справа (где?)."],
+["Как сказать «Поверните налево»?",["Pasukite į kairę.","Pasukite kairėje.","Pasukite į dešinę.","Eikite tiesiai."],0,"Į kairę — налево (куда?)."],
+["Kur yra paštas? — Paštas yra ___.",["kairėje","į kairę","kairė","kairę"],0,"На «kur?» — dešinėje / kairėje."],
+["Kaip nueiti į muziejų? — Pasukite ___.",["į dešinę","dešinėje","dešinė","dešinę"],0,"На «куда?» — į dešinę / į kairę."],
+["Что значит «tiesiai»?",["прямо","направо","налево","рядом"],0,"Tiesiai — прямо."],
+["Что значит «paskui»?",["потом, затем","сначала","прямо","далеко"],0,"Paskui — потом."],
+["«Eikite tiesiai, prie banko pasukite į kairę» — это…",["Идите прямо, у банка поверните налево","Идите налево, у банка прямо","Поезжайте прямо до банка","Банк справа"],0,"Tiesiai — прямо, į kairę — налево."],
+["Что значит «nuvažiuoti»?",["доехать","дойти пешком","уехать","приехать"],0,"Nuvažiuoti — доехать; nueiti — дойти пешком."],
+["Что значит «nueiti»?",["дойти пешком","доехать","повернуть","полететь"],0,"Nueiti — дойти пешком."],
+["Что значит «pasukti»?",["повернуть","пропустить","выйти","сесть"],0,"Pasukti — повернуть."],
+["Что значит «išlipti»?",["выйти из транспорта","сесть в транспорт","доехать","пропустить"],0,"Išlipti iš ko? — выйти."],
+["Что значит «įlipti»?",["сесть в транспорт","выйти из транспорта","повернуть","лететь"],0,"Įlipti į ką? — сесть, войти."],
+["Что значит «skristi»?",["лететь","ехать","идти","бежать"],0,"Skristi, skrenda, skrido — лететь."],
+["«Atsiprašau, ar lipsite?» — это…",["Извините, вы выходите?","Извините, где остановка?","Извините, сколько стоит билет?","Извините, когда поезд?"],0,"Спрашивают у человека у двери, выходит ли он."],
+["Как вежливо сказать, что вы хотите выйти?",["Atsiprašau, norėčiau išlipti.","Atsiprašau, ar lipsite?","Prašom bilietą.","Kita stotelė."],0,"Norėčiau išlipti — я хотел бы выйти."],
+["Что значит «bilietas pirmyn ir atgal»?",["билет туда и обратно","билет в одну сторону","билет со скидкой","электронный билет"],0,"Pirmyn ir atgal — туда и обратно."],
+["Что значит «bilietas į vieną pusę»?",["билет в одну сторону","билет туда и обратно","детский билет","билет на ночь"],0,"Į vieną pusę — в одну сторону."],
+["Как попросить билет со скидкой?",["bilietą su nuolaida","bilietą be nuolaidos","bilietą į abi puses","elektroninį bilietą"],0,"Nuolaida — скидка; su nuolaida — со скидкой."],
+["Что просит показать кассир для скидки?",["studento pažymėjimą","tvarkaraštį","kortelę","stotelę"],0,"Studento pažymėjimas — студенческий билет."],
+["Где купить билет?",["bilietų kasoje","stotelėje","peronas","kelyje"],0,"Bilietų kasa — билетная касса."],
+["Что значит «tvarkaraštis»?",["расписание","остановка","перрон","информация"],0,"Tvarkaraštis — расписание."],
+["Что значит «peronas»?",["перрон","путь","вокзал","остановка"],0,"Peronas — платформа ж/д вокзала."],
+["Что значит «oro uostas»?",["аэропорт","автовокзал","вокзал","порт"],0,"Oro uostas — аэропорт."],
+["Как сказать «ночной автобус»?",["naktinis autobusas","greitasis autobusas","viešasis autobusas","vakarinis autobusas"],0,"Naktinis autobusas — ночной автобус."],
+["Прилагательное «pigus» значит…",["дешёвый","дорогой","быстрый","удобный"],0,"Pigus — дешёвый; brangus — дорогой."],
+["Прилагательное «patogus» значит…",["удобный","быстрый","медленный","дорогой"],0,"Patogus — удобный."],
+["Bilietas yra brangus. Какая форма для женского рода?",["brangi","brangus","brangas","brangė"],0,"brangus, brangi."],
+["Что значит «Kiek kainuoja bilietas?»",["Сколько стоит билет?","Когда билет?","Где билет?","Какой билет?"],0,"Kiek kainuoja — сколько стоит."],
+["Kiek kainuoja? — «Dvidešimt trys eurai penkiasdešimt centų» — это…",["23,50 €","32,50 €","23,15 €","20,35 €"],0,"Dvidešimt trys — 23, penkiasdešimt — 50."],
+["Kaip nuvažiuoti pas Laurą? Какую форму использует Akvilė?",["Važiuok penkiasdešimt šeštu autobusu","Važiuok penkiasdešimt šeštas autobusas","Važiuoti penkiasdešimt šeštu autobusu","Važiuoja penkiasdešimt šeštu autobusu"],0,"Повелительное «važiuok» (ты) + творительный."],
+["Как попросить пополнить карту на 20 евро?",["Prašom papildyti dvidešimt eurų.","Prašom papildyti dvidešimt euras.","Prašom papildyti dvidešimt euro.","Prašom papildyti dvidešimt eurai."],0,"После числительных 10–20 и десятков — родительный мн. ч.: dvidešimt eurų."],
+["Kaip važiuoji į universitetą? — Į universitetą einu ___.",["pėsčiomis","autobusu","dviračiu","lėktuvu"],0,"Einu — иду, значит пешком: pėsčiomis."],
+["Какой вопрос задают, чтобы узнать способ поездки?",["Kaip važiuoji į darbą?","Kada važiuoji į darbą?","Kur važiuoji į darbą?","Kiek važiuoji į darbą?"],0,"Kaip? — как?"],
+["Kada yra traukinys į Šiaulius? — «Penkioliktą valandą» — это…",["15:00","5:00","14:00","50:00"],0,"Penkioliktą valandą — в 15 часов."],
+["Что значит «keleivių kontrolė»?",["контроль пассажиров","касса","остановка","расписание"],0,"Keleivių kontrolė — контроль пассажиров."]
+];
+
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 11.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 10 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
