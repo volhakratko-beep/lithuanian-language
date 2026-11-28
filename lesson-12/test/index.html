@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 2, урок 12</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../../" title="Урок 1">1</a><a href="../../lesson-2/" title="Урок 2">2</a><a href="../../lesson-3/" title="Урок 3">3</a><a href="../../lesson-4/" title="Урок 4">4</a><a href="../../lesson-5/" title="Урок 5">5</a><a href="../../lesson-6/" title="Урок 6">6</a><a href="../../lesson-7/" title="Урок 7">7</a><a href="../../lesson-8/" title="Урок 8">8</a><a href="../../lesson-9/" title="Урок 9">9</a><a href="../../lesson-10/" title="Урок 10">10</a><a href="../../lesson-11/" title="Урок 11">11</a><a href="../../lesson-12/" class="cur" aria-current="page" title="Урок 12">12</a><a href="../../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 12 · Koks jaukus butas!</h1>
+  <div class="sub">Sėkmės! 2 · квартира и мебель, yra / nėra, ant + родительный, reikia и ieškoti, прилагательные в родительном, kelintame aukšte?</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["Что значит «butas»?",["квартира","дом","комната","этаж"],0,"Butas — квартира; namas — дом; kambarys — комната."],
+["Что значит «aukštas»?",["этаж","потолок","пол","лестница"],0,"Aukštas — этаж; lubos — потолок; grindys — пол."],
+["Что значит «lubos»?",["потолок","пол","стена","окно"],0,"Lubos — потолок (всегда мн. ч.)."],
+["Что значит «grindys»?",["пол","потолок","ковёр","стена"],0,"Grindys — пол."],
+["Что значит «kilimas»?",["ковёр","диван","шкаф","кресло"],0,"Kilimas — ковёр."],
+["Что значит «svetainė»?",["гостиная","спальня","ванная","кухня"],0,"Svetainė — гостиная."],
+["Что значит «miegamasis»?",["спальня","гостиная","коридор","подвал"],0,"Miegamasis — спальня (от miegoti — спать)."],
+["Что значит «rūsys»?",["подвал","гараж","балкон","двор"],0,"Rūsys — подвал."],
+["Что значит «kiemas»?",["двор","ворота","гараж","дом"],0,"Kiemas — двор."],
+["Что значит «laiptai»?",["лестница","лифт","этаж","дверь"],0,"Laiptai — лестница; liftas — лифт."],
+["Что значит «lentyna»?",["полка","шкаф","стол","кровать"],0,"Lentyna — полка."],
+["Что значит «spinta»?",["шкаф","полка","диван","стул"],0,"Spinta — шкаф."],
+["Что значит «šaldytuvas»?",["холодильник","телевизор","плита","стол"],0,"Šaldytuvas — холодильник."],
+["Какое слово не относится к комнатам?",["fotelis","virtuvė","svetainė","miegamasis"],0,"Fotelis — кресло (мебель)."],
+["Какое слово не относится к частям дома?",["sofa","lubos","grindys","sienos"],0,"Sofa — диван, это мебель."],
+["Какое слово не относится к глаголам с ключом и дверью?",["sumokėti","užrakinti","atrakinti","uždaryti"],0,"Sumokėti — заплатить."],
+["Jaukus butas — это…",["уютная квартира","большая квартира","дорогая квартира","новая квартира"],0,"Jaukus — уютный."],
+["Какое слово противоположно «šviesus»?",["tamsus","ramus","jaukus","minkštas"],0,"Šviesus — светлый, tamsus — тёмный."],
+["Какое слово противоположно «ramus»?",["triukšmingas","šiltas","minkštas","patogus"],0,"Ramus — спокойный; triukšmingas — шумный."],
+["Какое слово противоположно «šiltas»?",["šaltas","tamsus","senas","tylus"],0,"Šiltas — тёплый, šaltas — холодный."],
+["Как сказать «в квартире есть интернет»?",["Bute yra internetas.","Bute yra interneto.","Bute nėra internetas.","Bute yra internetą."],0,"Yra + именительный падеж."],
+["Как сказать «в квартире нет интернета»?",["Bute nėra interneto.","Bute nėra internetas.","Bute nėra internetą.","Bute nėra internetu."],0,"Nėra + родительный падеж."],
+["Как сказать «лифта нет»?",["Lifto nėra.","Liftas nėra.","Liftą nėra.","Liftu nėra."],0,"liftas → lifto."],
+["Namuose nėra ___. (balkonas)",["balkono","balkonas","balkoną","balkonu"],0,"balkonas → balkono."],
+["Kambaryje nėra ___. (stalas)",["stalo","stalas","stalą","stalu"],0,"stalas → stalo."],
+["Bute nėra ___. (virtuvė)",["virtuvės","virtuvė","virtuvę","virtuvei"],0,"virtuvė → virtuvės."],
+["Name nėra ___. (televizorius)",["televizoriaus","televizorius","televizorių","televizoriui"],0,"-ius → -iaus."],
+["Čia nėra ___. (vanduo)",["vandens","vanduo","vandenį","vandeniu"],0,"vanduo → vandens."],
+["Родительный падеж от «rūsys»:",["rūsio","rūsys","rūsį","rūsyje"],0,"-ys → -io: rūsio."],
+["Родительный падеж от «fotelis»:",["fotelio","fotelis","fotelį","fotelyje"],0,"-is → -io."],
+["Родительный падеж от «lova»:",["lovos","lova","lovą","lovoje"],0,"-a → -os."],
+["Родительный падеж от «kėdė»:",["kėdės","kėdė","kėdę","kėdėje"],0,"-ė → -ės."],
+["Knyga yra ant ___. (stalas)",["stalo","stalas","stalą","stale"],0,"Ant + родительный падеж: ant stalo."],
+["Katė guli ant ___. (grindys)",["grindų","grindys","grindis","grindims"],0,"Мн. ч.: grindys → grindų."],
+["Obuoliai yra ant ___. (lentyna)",["lentynos","lentyna","lentyną","lentynai"],0,"ant lentynos."],
+["Vaikas sėdi ant ___. (lova)",["lovos","lova","lovą","lovai"],0,"ant lovos."],
+["Senelis sėdi ant ___. (fotelis)",["fotelio","fotelis","fotelį","fotelyje"],0,"ant fotelio."],
+["Родительный падеж мн. ч. от «laiptai»:",["laiptų","laiptai","laiptus","laiptams"],0,"ant laiptų — на лестнице."],
+["Родительный падеж мн. ч. от «lubos»:",["lubų","lubos","lubas","lubomis"],0,"ant lubų — на потолке."],
+["Ko tau reikia? — Man reikia ___. (stalas)",["stalo","stalas","stalą","stalu"],0,"Reikia + дательный (кому) + родительный (чего)."],
+["___ reikia naujos sofos. (мне)",["Man","Aš","Mane","Mano"],0,"Aš → man (дательный падеж)."],
+["___ reikia didelio namo. (нам)",["Mums","Mes","Mus","Mūsų"],0,"mes → mums."],
+["___ reikia šviesaus buto. (им, мужчинам)",["Jiems","Jie","Jų","Juos"],0,"jie → jiems."],
+["___ reikia didelės spintos. (ей)",["Jai","Ji","Jos","Ją"],0,"ji → jai."],
+["Ar ___ reikia tamsaus fotelio? (вам)",["jums","jūs","jus","jūsų"],0,"jūs → jums."],
+["Ar ___ reikia naujos lovos? (тебе)",["tau","tu","tave","tavo"],0,"tu → tau."],
+["Родительный падеж от «naujas stalas»:",["naujo stalo","naujas stalo","naujo stalas","naują stalą"],0,"Прилагательное и существительное оба в родительном: naujo stalo."],
+["Родительный падеж от «minkšta lova»:",["minkštos lovos","minkšta lovos","minkštos lova","minkštą lovą"],0,"minkšta lova → minkštos lovos."],
+["Родительный падеж от «didelis namas»:",["didelio namo","didelis namo","didelio namas","didelį namą"],0,"didelis namas → didelio namo."],
+["Родительный падеж от «graži lentyna»:",["gražios lentynos","graži lentynos","gražios lentyna","gražią lentyną"],0,"graži lentyna → gražios lentynos."],
+["Ieškau ___ buto. (тихий)",["ramaus","ramas","ramų","ramu"],0,"Ieškoti + родительный: ramaus buto."],
+["Ieškau ___ sofos. (светлая)",["šviesios","šviesi","šviesią","šviesiai"],0,"šviesi → šviesios."],
+["Mes ieškome ___. (butas)",["buto","butas","butą","butu"],0,"Ieškoti + родительный: buto."],
+["Kelintame aukšte tu gyveni? — ___. (5)",["Penktame.","Penktas.","Penktą.","Penktu."],0,"Местный падеж: penktame aukšte."],
+["Auditorija yra ___. (2 этаж)",["antrame aukšte","antras aukštas","antrą aukštą","antru aukštu"],0,"-as → -ame: antrame aukšte."],
+["Saulė dirba ___. (17 этаж)",["septynioliktame aukšte","septynioliktas aukštas","septynioliktą aukštą","septynioliktu aukštu"],0,"septynioliktame aukšte."],
+["Kavinė yra ___. (1 этаж)",["pirmame aukšte","pirmas aukštas","pirmą aukštą","pirmu aukštu"],0,"pirmas → pirmame."],
+["Какой вопрос задают об этаже?",["Kelintame aukšte?","Kelintas aukštas?","Kokiame aukšte?","Kiek aukštų?"],0,"Kelintame aukšte? — на каком этаже?"],
+["Как сказать «закройте дверь» (вежливо, вы)?",["Uždarykite duris.","Uždaryk duris.","Uždarau duris.","Uždarys duris."],0,"Uždarykite — повелительное для «вы»."],
+["Как сказать «Рокас, открой окно» (на ты)?",["Atidaryk langą.","Atidarykite langą.","Atidarau langą.","Atidaro langą."],0,"Atidaryk — форма для «ты»."],
+["Что значит «Būtinai atvažiuosime!»?",["Обязательно приедем!","Не сможем приехать!","Приезжайте к нам!","Мы уже приехали!"],0,"Būtinai — обязательно."],
+["Как вежливо отказаться от приглашения?",["Gaila, bet savaitgalį negaliu.","Būtinai atvažiuosiu!","Prašom užeiti.","Labai ačiū už kvietimą!"],0,"Gaila — жаль."],
+["Как похвалить квартиру?",["Koks jaukus butas!","Kiek kainuoja butas?","Ar yra liftas?","Kelintame aukšte?"],0,"Koks jaukus butas! — Какая уютная квартира!"],
+["Что значит «Prašom sėstis»?",["Садитесь, пожалуйста","Входите, пожалуйста","Подождите, пожалуйста","Закройте дверь"],0,"Sėstis — садиться."]
+];
+
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 13.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 12 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>

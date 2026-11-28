@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sėkmės! 2 — Урок 12: Koks jaukus butas!</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--soft:#f4efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--soft:#2f2d29}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.page{width:100%;max-width:720px;padding:16px 16px 56px}
+h1{font-size:24px;margin:6px 0 4px}
+h2{font-size:20px;margin:30px 0 10px;padding-top:6px;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:20px 0 8px}
+p{margin:8px 0}
+.sub{color:var(--muted);font-size:14px}
+nav{position:sticky;top:0;background:var(--bg);padding:8px 0;margin:10px 0;display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid var(--line);z-index:2}
+nav a{white-space:nowrap;text-decoration:none;color:var(--fg);border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:999px;font-size:14px}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600}
+tr:last-child td{border-bottom:0}
+.note{background:var(--soft);border-left:3px solid var(--accent);padding:10px 12px;border-radius:6px;margin:10px 0;font-size:15px}
+ul{margin:6px 0;padding-left:22px}
+.lt{font-weight:600}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.links a{background:var(--accent);color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;font-size:15px}
+.dlg{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0}
+.dlg p{margin:3px 0}
+.lessons{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0;font-size:15px}
+.lessons a{color:var(--accent);text-decoration:none;font-weight:600}
+@media print{nav,.links{display:none}body{display:block}}
+</style>
+</head>
+<body>
+<div class="page">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../" title="Урок 1">1</a><a href="../lesson-2/" title="Урок 2">2</a><a href="../lesson-3/" title="Урок 3">3</a><a href="../lesson-4/" title="Урок 4">4</a><a href="../lesson-5/" title="Урок 5">5</a><a href="../lesson-6/" title="Урок 6">6</a><a href="../lesson-7/" title="Урок 7">7</a><a href="../lesson-8/" title="Урок 8">8</a><a href="../lesson-9/" title="Урок 9">9</a><a href="../lesson-10/" title="Урок 10">10</a><a href="../lesson-11/" title="Урок 11">11</a><a href="../lesson-12/" class="cur" aria-current="page" title="Урок 12">12</a><a href="../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+<h1>Урок 12 · Koks jaukus butas!</h1>
+<div class="sub">Учебник «Sėkmės! 2» (A2) · Какая уютная квартира!</div>
+<div class="lessons"><a href="../lesson-11/">← Урок 11: Geros kelionės!</a><span></span></div>
+<nav>
+  <a href="#frazy">Фразы</a>
+  <a href="#dialogi">Диалоги</a>
+  <a href="#grammar">Грамматика</a>
+  <a href="#words">Слова</a>
+</nav>
+<p>После урока вы сможете снять квартиру или комнату, рассказать о своём доме, пригласить в гости и ответить на приглашение, похвалить жильё и мебель.</p>
+<div class="links">
+  <a href="test/">Пройти тест к уроку</a>
+  <a href="cards/">Карточки к уроку</a>
+</div>
+<h2 id="frazy">Ключевые фразы</h2>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">Ar jūs nuomojate kambarį? — Taip. — Kiek kainuoja per mėnesį?</td><td>Вы сдаёте комнату? — Да. — Сколько стоит в месяц?</td></tr>
+<tr><td class="lt">Norėčiau išsinuomoti butą. Kada galėčiau apžiūrėti butą?</td><td>Я хотел бы снять квартиру. Когда я мог бы её осмотреть?</td></tr>
+<tr><td class="lt">Kiek kambarių? — Trys kambariai.</td><td>Сколько комнат? — Три комнаты.</td></tr>
+<tr><td class="lt">Ar yra balkonas? — Taip. Ar yra liftas? — Ne, lifto nėra.</td><td>Есть балкон? — Да. Есть лифт? — Нет, лифта нет.</td></tr>
+<tr><td class="lt">Kelintame aukšte tu gyveni? — Antrame.</td><td>На каком этаже ты живёшь? — На втором.</td></tr>
+<tr><td class="lt">Koks durų kodas? — 2323.</td><td>Какой код от двери? — 2323.</td></tr>
+<tr><td class="lt">Prašom užeiti. — Ačiū. Prašom sėstis. — Ačiū. (Užeik! Sėskis!)</td><td>Проходите. — Спасибо. Садитесь. — Спасибо. (Заходи! Садись!)</td></tr>
+<tr><td class="lt">Kviečiu į svečius! — Labai ačiū už kvietimą!</td><td>Приглашаю в гости! — Большое спасибо за приглашение!</td></tr>
+<tr><td class="lt">Gaila, bet savaitgalį negaliu.</td><td>Жаль, но в выходные не могу.</td></tr>
+<tr><td class="lt">Atvažiuokite į svečius! — Būtinai atvažiuosime!</td><td>Приезжайте в гости! — Обязательно приедем!</td></tr>
+<tr><td class="lt">Koks didelis namas! Kokia didelė svetainė! Labai graži sofa!</td><td>Какой большой дом! Какая большая гостиная! Очень красивый диван!</td></tr>
+<tr><td class="lt">Kaip čia gražu! Čia labai jauku!</td><td>Как здесь красиво! Здесь очень уютно!</td></tr>
+<tr><td class="lt">Prašom uždaryti duris. Prašyčiau atidaryti langą.</td><td>Закройте, пожалуйста, дверь. Я бы попросил открыть окно.</td></tr>
+<tr><td class="lt">Ar gali išjungti televizorių?</td><td>Можешь выключить телевизор?</td></tr>
+<tr><td class="lt">Čia šalta – reikia uždaryti langą. Tamsu – reikia įjungti šviesą.</td><td>Здесь холодно — нужно закрыть окно. Темно — нужно включить свет.</td></tr>
+</table></div>
+<h2 id="dialogi">Диалоги</h2>
+<div class="dlg">
+<p><b>Nuomininkė:</b> Laba diena. Ar jūs nuomojate butą?</p>
+<p><b>Buto šeimininkas:</b> Taip.</p>
+<p><b>Nuomininkė:</b> Ar galite papasakoti apie butą?</p>
+<p><b>Buto šeimininkas:</b> Butas nedidelis – 55 kvadratiniai metrai. Bet labai jaukus ir šviesus.</p>
+<p><b>Nuomininkė:</b> Kiek kambarių?</p>
+<p><b>Buto šeimininkas:</b> Du kambariai.</p>
+<p><b>Nuomininkė:</b> O kur yra jūsų butas?</p>
+<p><b>Buto šeimininkas:</b> Senamiestyje. Labai gera vieta: netoli universitetas, parduotuvė, parkas.</p>
+<p><b>Nuomininkė:</b> Kelintame aukšte?</p>
+<p><b>Buto šeimininkas:</b> Ketvirtame.</p>
+<p><b>Nuomininkė:</b> Ar liftas yra?</p>
+<p><b>Buto šeimininkas:</b> Ne, lifto nėra.</p>
+<p><b>Nuomininkė:</b> Ar bute yra internetas?</p>
+<p><b>Buto šeimininkas:</b> Taip, yra internetas.</p>
+<p><b>Nuomininkė:</b> Kiek kainuoja?</p>
+<p><b>Buto šeimininkas:</b> Penkis šimtus penkiasdešimt eurų per mėnesį. Ir jums dar reikės sumokėti mokesčius.</p>
+<p><b>Nuomininkė:</b> Kada galėčiau apžiūrėti?</p>
+<p><b>Buto šeimininkas:</b> Galite ateiti rytoj vakare. Adresas – Tilto gatvė 32–14.</p>
+<p><b>Nuomininkė:</b> Ačiū. Ateisiu apie septintą valandą. Viso gero!</p>
+<p><b>Buto šeimininkas:</b> Viso gero!</p>
+<p class="sub">Квартиросъёмщица: Добрый день. Вы сдаёте квартиру? — Хозяин: Да. — Можете рассказать о квартире? — Квартира небольшая — 55 квадратных метров. Но очень уютная и светлая. — Сколько комнат? — Две комнаты. — А где находится ваша квартира? — В Старом городе. Очень хорошее место: рядом университет, магазин, парк. — На каком этаже? — На четвёртом. — Лифт есть? — Нет, лифта нет. — В квартире есть интернет? — Да, есть. — Сколько стоит? — Пятьсот пятьдесят евро в месяц. И вам ещё нужно будет платить коммунальные платежи. — Когда я могла бы посмотреть? — Можете прийти завтра вечером. Адрес — улица Тилто, 32–14. — Спасибо. Приду около семи часов. Всего доброго! — Всего доброго!</p>
+</div>
+<div class="dlg">
+<p><b>Nuomininkas:</b> Laba diena, ar jūs nuomojate kambarį?</p>
+<p><b>Buto šeimininkė:</b> Atsiprašau, kambarys jau išnuomotas.</p>
+<p><b>Nuomininkas:</b> Gaila. Viso gero!</p>
+<p><b>Buto šeimininkė:</b> Viso gero!</p>
+<p class="sub">Квартиросъёмщик: Добрый день, вы сдаёте комнату? — Хозяйка: Извините, комната уже сдана. — Жаль. Всего доброго! — Всего доброго!</p>
+</div>
+<div class="dlg">
+<p><b>Klientas:</b> Laba diena.</p>
+<p><b>Vadybininkė:</b> Laba diena. Kuo galėčiau padėti?</p>
+<p><b>Klientas:</b> Norėčiau išsinuomoti butą.</p>
+<p><b>Vadybininkė:</b> Kokio buto jums reikia?</p>
+<p><b>Klientas:</b> Ieškau vieno arba dviejų kambarių buto miesto centre. Turiu šunį, todėl norėčiau buto prie parko. Man reikia tylaus ir šviesaus buto, nes dirbu namie.</p>
+<p><b>Vadybininkė:</b> Ieškote buto su baldais?</p>
+<p><b>Klientas:</b> Gali būti be baldų.</p>
+<p><b>Vadybininkė:</b> Kiek galėtumėte mokėti per mėnesį?</p>
+<p><b>Klientas:</b> Iki devynių šimtų eurų.</p>
+<p><b>Vadybininkė:</b> Gerai. Užpildykite anketą – parašykite savo vardą, pavardę, telefono numerį ir elektroninį paštą. Mes jums paskambinsime.</p>
+<p><b>Klientas:</b> Ačiū.</p>
+<p class="sub">Клиент: Добрый день. — Менеджер: Добрый день. Чем могу помочь? — Я хотел бы снять квартиру. — Какая квартира вам нужна? — Ищу квартиру с одной или двумя комнатами в центре. У меня собака, поэтому хотел бы квартиру у парка. Мне нужна тихая и светлая квартира, потому что я работаю дома. — Ищете квартиру с мебелью? — Может быть и без мебели. — Сколько вы могли бы платить в месяц? — До девятисот евро. — Хорошо. Заполните анкету: напишите имя, фамилию, номер телефона и электронную почту. Мы вам позвоним. — Спасибо.</p>
+</div>
+<div class="dlg">
+<p><b>Rasa:</b> Kur tu gyveni, Kristoferi?</p>
+<p><b>Kristoferis:</b> Gyvenu universiteto bendrabutyje, Rasa.</p>
+<p><b>Rasa:</b> Ar geras kambarys?</p>
+<p><b>Kristoferis:</b> Taip, geras. Yra nauja lova, patogus stalas, lentynos, nedidelis šaldytuvas. Yra balkonas – galima sėdėti ir gerti arbatą.</p>
+<p><b>Rasa:</b> Kelintame aukšte tavo kambarys?</p>
+<p><b>Kristoferis:</b> Šeštame.</p>
+<p class="sub">Раса: Где ты живёшь, Кристофер? — Кристофер: Живу в университетском общежитии, Раса. — Хорошая комната? — Да, хорошая. Есть новая кровать, удобный стол, полки, небольшой холодильник. Есть балкон — можно сидеть и пить чай. — На каком этаже твоя комната? — На шестом.</p>
+</div>
+<div class="dlg">
+<p><b>Viltė:</b> Labas, Bjornai!</p>
+<p><b>Bjornas:</b> Labas, Vilte!</p>
+<p><b>Viltė:</b> Kaip malonu tave matyti!</p>
+<p><b>Bjornas:</b> Man taip pat labai malonu!</p>
+<p><b>Viltė:</b> Nežinojau, kad tu esi Lietuvoje.</p>
+<p><b>Bjornas:</b> Taip, dabar aš su šeima gyvenu Vilniuje.</p>
+<p><b>Viltė:</b> Ar jūs gyvenate centre?</p>
+<p><b>Bjornas:</b> Ne, mes išsinuomojome namą netoli miesto. Namas didelis: trys miegamieji, patogi virtuvė, rūsys, garažas. Vaikai labai mėgsta būti kieme. Netoli yra ežeras, miškas. Dažnai einame pasivaikščioti į mišką. Atvažiuokite į svečius!</p>
+<p><b>Viltė:</b> Labai ačiū! Būtinai atvažiuosime!</p>
+<p class="sub">Вильте: Привет, Бьорн! — Бьорн: Привет, Вильте! — Как приятно тебя видеть! — Мне тоже очень приятно! — Я не знала, что ты в Литве. — Да, сейчас я с семьёй живу в Вильнюсе. — Вы живёте в центре? — Нет, мы сняли дом недалеко от города. Дом большой: три спальни, удобная кухня, подвал, гараж. Дети очень любят бывать во дворе. Рядом озеро, лес. Мы часто ходим гулять в лес. Приезжайте в гости! — Большое спасибо! Обязательно приедем!</p>
+</div>
+<div class="dlg">
+<p><b>Lina:</b> Tavo butas labai jaukus, Saule!</p>
+<p><b>Saulė:</b> Ačiū, Lina! Man čia patinka gyventi: jauku ir ramu.</p>
+<p><b>Lina:</b> Ir labai šviesu!</p>
+<p><b>Saulė:</b> Taip, bute dideli langai. Sėsk!</p>
+<p><b>Lina:</b> Ačiū! O, kokia patogi sofa! Kur pirkai? Man reikia naujos sofos.</p>
+<p><b>Saulė:</b> Sofą ir žalią fotelį pirkau baldų parduotuvėje prie namų.</p>
+<p class="sub">Лина: Твоя квартира очень уютная, Саулė! — Саулė: Спасибо, Лина! Мне здесь нравится жить: уютно и спокойно. — И очень светло! — Да, в квартире большие окна. Садись! — Спасибо! О, какой удобный диван! Где купила? Мне нужен новый диван. — Диван и зелёное кресло я купила в мебельном магазине рядом с домом.</p>
+</div>
+<div class="dlg">
+<p><b>Buto šeimininkas:</b> Prašom sėstis, ponia Virginija.</p>
+<p><b>Virginija:</b> Ačiū!</p>
+<p><b>Buto šeimininkas:</b> Ar galėčiau atidaryti langą? Kambaryje labai karšta.</p>
+<p><b>Virginija:</b> Taip, prašom.</p>
+<p class="sub">Хозяин: Садитесь, пожалуйста, госпожа Виргиния. — Виргиния: Спасибо! — Хозяин: Можно я открою окно? В комнате очень жарко. — Виргиния: Да, пожалуйста.</p>
+</div>
+<h2 id="grammar">Грамматика</h2>
+<h3>1. Yra + именительный, nėra + родительный падеж</h3>
+<p><i>Namuose yra internetas. — Namuose nėra interneto.</i></p>
+<p>«Есть» — <b>yra / buvo</b> + именительный; «нет» — <b>nėra / nebuvo</b> + родительный.</p>
+<div class="wrap"><table>
+<tr><th>Им. п.</th><th>Род. п.</th><th>Пример</th></tr>
+<tr><td>-as</td><td class="lt">-o</td><td>stalas → <b>stalo</b></td></tr>
+<tr><td>-is</td><td class="lt">-io</td><td>fotelis → <b>fotelio</b></td></tr>
+<tr><td>-ys</td><td class="lt">-io</td><td>rūsys → <b>rūsio</b>; kambarys → <b>kambario</b></td></tr>
+<tr><td>-a</td><td class="lt">-os</td><td>lova → <b>lovos</b></td></tr>
+<tr><td>-ė</td><td class="lt">-ės</td><td>kėdė → <b>kėdės</b></td></tr>
+<tr><td>-ius</td><td class="lt">-iaus</td><td>televizorius → <b>televizoriaus</b></td></tr>
+<tr><td>-uo</td><td class="lt">-ens</td><td>vanduo → <b>vandens</b></td></tr>
+</table></div>
+<h3>2. Ant + родительный падеж: «на (чём-то)»</h3>
+<p><i>Knyga yra ant stalo. Katė guli ant grindų.</i></p>
+<div class="wrap"><table>
+<tr><th>Им. п.</th><th>Ant + Род. п.</th></tr>
+<tr><td>stalas</td><td>ant <b>stalo</b></td></tr>
+<tr><td>fotelis</td><td>ant <b>fotelio</b></td></tr>
+<tr><td>lova</td><td>ant <b>lovos</b></td></tr>
+<tr><td>kėdė</td><td>ant <b>kėdės</b></td></tr>
+<tr><td>televizorius</td><td>ant <b>televizoriaus</b></td></tr>
+<tr><td>laiptai (мн.)</td><td>ant <b>laiptų</b></td></tr>
+<tr><td>grindys (мн.)</td><td>ant <b>grindų</b></td></tr>
+<tr><td>lubos (мн.)</td><td>ant <b>lubų</b></td></tr>
+</table></div>
+<h3>3. Reikia + дательный + родительный; ieškoti + родительный</h3>
+<p><i>Ko tau reikia? — Man reikia stalo. Ko jūs ieškote? — Mes ieškome buto.</i></p>
+<div class="wrap"><table>
+<tr><th>Им. п.</th><th>Дат. п. (кому нужно?)</th></tr>
+<tr><td>aš</td><td class="lt">man</td></tr>
+<tr><td>tu</td><td class="lt">tau</td></tr>
+<tr><td>jis</td><td class="lt">jam</td></tr>
+<tr><td>ji</td><td class="lt">jai</td></tr>
+<tr><td>mes</td><td class="lt">mums</td></tr>
+<tr><td>jūs</td><td class="lt">jums</td></tr>
+<tr><td>jie</td><td class="lt">jiems</td></tr>
+<tr><td>jos</td><td class="lt">joms</td></tr>
+</table></div>
+<h3>4. Прилагательные в родительном падеже: kokio? kokios?</h3>
+<p><i>Kokio stalo jums reikia? — Man reikia didelio stalo. Kokios sofos tu ieškai? — Ieškau šviesios sofos.</i></p>
+<div class="wrap"><table>
+<tr><th>Им. п.</th><th>Род. п.</th></tr>
+<tr><td>naujas stalas</td><td class="lt">naujo stalo</td></tr>
+<tr><td>gražus fotelis</td><td class="lt">gražaus fotelio</td></tr>
+<tr><td>didelis televizorius</td><td class="lt">didelio televizoriaus</td></tr>
+<tr><td>minkšta sofa</td><td class="lt">minkštos sofos</td></tr>
+<tr><td>graži lentyna</td><td class="lt">gražios lentynos</td></tr>
+<tr><td>didelė virtuvė</td><td class="lt">didelės virtuvės</td></tr>
+</table></div>
+<div class="note">Муж. р.: -as → -o, -us → -aus, -is → -io. Жен. р.: -a → -os, -i → -ios, -ė → -ės.</div>
+<h3>5. Порядковые числительные в местном падеже: kelintame aukšte?</h3>
+<p><i>Kelintame aukšte tavo kambarys? — Penktame. Gyvenu pirmame aukšte.</i></p>
+<p>Окончание <b>-as → -ame</b>.</p>
+<div class="wrap"><table>
+<tr><th>Kelintas aukštas?</th><th>Kelintame aukšte?</th></tr>
+<tr><td class="lt">pirmas</td><td class="lt">pirmame</td></tr>
+<tr><td class="lt">antras</td><td class="lt">antrame</td></tr>
+<tr><td class="lt">trečias</td><td class="lt">trečiame</td></tr>
+<tr><td class="lt">ketvirtas</td><td class="lt">ketvirtame</td></tr>
+<tr><td class="lt">penktas</td><td class="lt">penktame</td></tr>
+<tr><td class="lt">šeštas</td><td class="lt">šeštame</td></tr>
+<tr><td class="lt">septintas</td><td class="lt">septintame</td></tr>
+<tr><td class="lt">aštuntas</td><td class="lt">aštuntame</td></tr>
+<tr><td class="lt">devintas</td><td class="lt">devintame</td></tr>
+<tr><td class="lt">dešimtas</td><td class="lt">dešimtame</td></tr>
+<tr><td class="lt">vienuoliktas</td><td class="lt">vienuoliktame</td></tr>
+<tr><td class="lt">dvidešimtas</td><td class="lt">dvidešimtame</td></tr>
+<tr><td class="lt">dvidešimt pirmas</td><td class="lt">dvidešimt pirmame</td></tr>
+</table></div>
+<h3>6. Просьба и действие: повелительное наклонение</h3>
+<div class="wrap"><table>
+<tr><th>Инфинитив</th><th>Ты / Вы</th><th>Русский</th></tr>
+<tr><td class="lt">uždaryti</td><td class="lt">uždaryk! / uždarykite!</td><td>закрыть</td></tr>
+<tr><td class="lt">atidaryti</td><td class="lt">atidaryk! / atidarykite!</td><td>открыть</td></tr>
+<tr><td class="lt">užrakinti</td><td class="lt">užrakink! / užrakinkite!</td><td>запереть</td></tr>
+<tr><td class="lt">atrakinti</td><td class="lt">atrakink! / atrakinkite!</td><td>отпереть</td></tr>
+<tr><td class="lt">sumokėti</td><td class="lt">sumokėk! / sumokėkite!</td><td>заплатить</td></tr>
+</table></div>
+<h2 id="words">Словарь урока</h2>
+<h3>Дом</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">namas</td><td>дом</td></tr>
+<tr><td class="lt">namai</td><td>дом, домой</td></tr>
+<tr><td class="lt">butas</td><td>квартира</td></tr>
+<tr><td class="lt">laiptinė</td><td>лестничная клетка</td></tr>
+<tr><td class="lt">laiptai</td><td>лестница</td></tr>
+<tr><td class="lt">aukštas</td><td>этаж</td></tr>
+<tr><td class="lt">liftas</td><td>лифт</td></tr>
+<tr><td class="lt">balkonas</td><td>балкон</td></tr>
+<tr><td class="lt">garažas</td><td>гараж</td></tr>
+<tr><td class="lt">kiemas</td><td>двор</td></tr>
+<tr><td class="lt">vartai</td><td>ворота</td></tr>
+<tr><td class="lt">durys, durų kodas</td><td>дверь, код от двери</td></tr>
+<tr><td class="lt">raktas</td><td>ключ</td></tr>
+<tr><td class="lt">langas</td><td>окно</td></tr>
+<tr><td class="lt">siena</td><td>стена</td></tr>
+<tr><td class="lt">lubos</td><td>потолок</td></tr>
+<tr><td class="lt">grindys</td><td>пол</td></tr>
+<tr><td class="lt">kilimas</td><td>ковёр</td></tr>
+</table></div>
+<h3>Комнаты</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">kambarys, kambariai</td><td>комната</td></tr>
+<tr><td class="lt">virtuvė</td><td>кухня</td></tr>
+<tr><td class="lt">svetainė</td><td>гостиная</td></tr>
+<tr><td class="lt">koridorius</td><td>коридор</td></tr>
+<tr><td class="lt">vonia</td><td>ванная</td></tr>
+<tr><td class="lt">dušas</td><td>душ</td></tr>
+<tr><td class="lt">tualetas</td><td>туалет</td></tr>
+<tr><td class="lt">miegamasis</td><td>спальня</td></tr>
+<tr><td class="lt">rūsys</td><td>подвал</td></tr>
+</table></div>
+<h3>Мебель</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">baldai</td><td>мебель</td></tr>
+<tr><td class="lt">stalas</td><td>стол</td></tr>
+<tr><td class="lt">kėdė</td><td>стул</td></tr>
+<tr><td class="lt">lova</td><td>кровать</td></tr>
+<tr><td class="lt">sofa</td><td>диван</td></tr>
+<tr><td class="lt">fotelis</td><td>кресло</td></tr>
+<tr><td class="lt">spinta</td><td>шкаф</td></tr>
+<tr><td class="lt">lentyna</td><td>полка</td></tr>
+</table></div>
+<h3>Какой?</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">jaukus, jauki</td><td>уютный</td></tr>
+<tr><td class="lt">ramus, rami</td><td>спокойный</td></tr>
+<tr><td class="lt">triukšmingas, triukšminga</td><td>шумный</td></tr>
+<tr><td class="lt">minkštas, minkšta</td><td>мягкий</td></tr>
+<tr><td class="lt">patogus, patogi</td><td>удобный</td></tr>
+</table></div>
+<h3>Глаголы</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">sumokėti, sumoka, sumokėjo (už ką?)</td><td>заплатить</td></tr>
+<tr><td class="lt">uždaryti, uždaro, uždarė (ką?)</td><td>закрыть</td></tr>
+<tr><td class="lt">atidaryti, atidaro, atidarė (ką?)</td><td>открыть</td></tr>
+<tr><td class="lt">užrakinti, užrakina, užrakino (ką?)</td><td>запереть</td></tr>
+<tr><td class="lt">atrakinti, atrakina, atrakino (ką?)</td><td>отпереть</td></tr>
+<tr><td class="lt">nuomoti, nuomoja, nuomojo (ką?)</td><td>сдавать</td></tr>
+<tr><td class="lt">išsinuomoti, išsinuomoja, išsinuomojo (ką?)</td><td>снять</td></tr>
+<tr><td class="lt">reikėti, reikia, reikėjo (kam? ko?)</td><td>быть нужным</td></tr>
+<tr><td class="lt">ieškoti, ieško, ieškojo (ko?)</td><td>искать</td></tr>
+<tr><td class="lt">sėdėti, sėdi, sėdėjo</td><td>сидеть</td></tr>
+<tr><td class="lt">gulėti, guli, gulėjo</td><td>лежать</td></tr>
+<tr><td class="lt">miegoti, miega, miegojo</td><td>спать</td></tr>
+</table></div>
+<div class="links">
+  <a href="test/">Пройти тест к уроку</a>
+  <a href="cards/">Карточки к уроку</a>
+</div>
+<div class="lessons"><a href="../lesson-11/">← Урок 11: Geros kelionės!</a><span></span></div>
+</div>
+</body>
+</html>
