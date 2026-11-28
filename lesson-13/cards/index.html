@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Карточки: урок 13 (литовский)</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--again:#b45309}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--again:#fbbf24}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:460px;padding:16px 16px 32px}
+h1{font-size:20px;margin:4px 0 12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--fg);padding:7px 12px;border-radius:999px;font-size:14px;cursor:pointer}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.stat{color:var(--muted);font-size:14px;margin:6px 0 10px;display:flex;justify-content:space-between}
+.scene{perspective:1000px;height:240px;margin-bottom:14px}
+.card{position:relative;width:100%;height:100%;transition:transform .45s;transform-style:preserve-3d;cursor:pointer}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center}
+.back{transform:rotateY(180deg)}
+.word{font-size:32px;font-weight:600;word-break:break-word}
+.word.long{font-size:22px}
+.sub{font-size:18px;color:var(--muted);margin-top:10px}
+.hint{color:var(--muted);font-size:13px;margin-top:14px}
+.btns{display:flex;gap:10px}
+.btn{flex:1;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:16px;cursor:pointer}
+.btn.ok{border-color:var(--ok);color:var(--ok)}
+.btn.again{border-color:var(--again);color:var(--again)}
+.done{text-align:center;padding:50px 10px;border:1px dashed var(--line);border-radius:18px}
+.done b{font-size:22px;display:block;margin-bottom:8px}
+.tools{display:flex;gap:8px;margin-top:12px}
+.tools .btn{padding:10px;font-size:14px}
+.note{color:var(--muted);font-size:13px;margin-top:8px}
+.nav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.arrow{width:56px;height:48px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:22px;cursor:pointer}
+.arrow:disabled{opacity:.35;cursor:default}
+.pos{flex:1;text-align:center;color:var(--muted);font-size:15px}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../../" title="Урок 1">1</a><a href="../../lesson-2/" title="Урок 2">2</a><a href="../../lesson-3/" title="Урок 3">3</a><a href="../../lesson-4/" title="Урок 4">4</a><a href="../../lesson-5/" title="Урок 5">5</a><a href="../../lesson-6/" title="Урок 6">6</a><a href="../../lesson-7/" title="Урок 7">7</a><a href="../../lesson-8/" title="Урок 8">8</a><a href="../../lesson-9/" title="Урок 9">9</a><a href="../../lesson-10/" title="Урок 10">10</a><a href="../../lesson-11/" title="Урок 11">11</a><a href="../../lesson-12/" title="Урок 12">12</a><a href="../../lesson-13/" class="cur" aria-current="page" title="Урок 13">13</a><a href="../../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Урок 13 · Reikia meistro!</h1>
+  <div class="row" id="cats"></div>
+  <div class="row" id="dirs"></div>
+  <div class="stat"><span id="left"></span><span id="known"></span></div>
+  <div id="stage"></div>
+  <div class="tools">
+    <button class="btn" id="shuffle">Перемешать</button>
+    <button class="btn" id="reset">Начать заново</button>
+  </div>
+  <div class="note" id="note"></div>
+</div>
+<script>
+var DATA=[];
+function add(cat,list,fn){list.forEach(function(x){var r=fn(x);DATA.push([r[0],r[1],cat])})}
+function id(x){return x}
+
+add("tech",[
+["buitinė technika","бытовая техника"],["šaldytuvas","холодильник"],["orkaitė","духовка"],["viryklė","плита"],["mikrobangų krosnelė","микроволновая печь"],["indaplovė","посудомоечная машина"],
+["skalbyklė","стиральная машина"],["džiovyklė","сушильная машина"],["virdulys","чайник"],["kavos aparatas","кофемашина"],["dulkių siurblys","пылесос"],["lygintuvas","утюг"]
+],id);
+
+add("items",[
+["daiktai","вещи"],["televizorius","телевизор"],["lempa","лампа"],["veidrodis","зеркало"],["paveikslas","картина"],["gėlė","цветок"],["kilimas","ковёр"],["indai","посуда"],
+["šiukšlių dėžė","мусорное ведро"],["šiukšlės","мусор"],["dulkės","пыль"],["purvas","грязь"],["valymas","уборка"],["šviesa","свет"],["vamzdis","труба"],["čiaupas","кран"],["remontas","ремонт"],
+["kvadratinis metras (m²)","квадратный метр"]
+],id);
+
+add("people",[
+["meistras, meistrė","мастер"],["santechnikas, santechnikė","сантехник"],["kaimynas, kaimynė","сосед, соседка"],["namų tvarkytojas, namų tvarkytoja","уборщик, уборщица (домработница)"],
+["avarinė tarnyba","аварийная служба"],["dispečerė","диспетчер"],["buto šeimininkas, šeimininkė","хозяин, хозяйка квартиры"],["nuomininkas, nuomininkė","арендатор, жилец"]
+],id);
+
+add("adj",[
+["švarus, švari","чистый"],["nešvarus, nešvari","грязный"],["tvarkingas, tvarkinga","аккуратный, в порядке"],["netvarkingas, netvarkinga","неубранный"]
+],id);
+
+add("verbs",[
+["tvarkyti, tvarko, tvarkė (ką?)","убирать, приводить в порядок"],["sutvarkyti, sutvarko, sutvarkė (ką?)","привести в порядок"],["valyti, valo, valė (ką?)","чистить"],
+["nuvalyti, nuvalo, nuvalė (ką?)","вытереть, стереть"],["išvalyti, išvalo, išvalė (ką?)","вычистить"],["išplauti, išplauna, išplovė (ką?)","вымыть"],["išsiurbti, išsiurbia, išsiurbė (ką?)","пропылесосить"],
+["išnešti, išneša, išnešė (ką?)","вынести"],["įjungti, įjungia, įjungė (ką?)","включить"],["išjungti, išjungia, išjungė (ką?)","выключить"],["trūkti, trūksta, trūko","порваться, лопнуть"],
+["pataisyti, pataiso, pataisė (ką?)","починить"],["sugesti, sugenda, sugedo","сломаться"],["veikti, veikia, veikė","работать"]
+],id);
+
+add("phrases",[
+["Reikia meistro.","Нужен мастер."],["Trūko vamzdis! Vonioje bėga vanduo!","Лопнула труба! В ванной течёт вода!"],["Nėra elektros.","Нет электричества."],["Nėra karšto vandens.","Нет горячей воды."],
+["Sugedo šaldytuvas.","Сломался холодильник."],["Neveikia kompiuteris.","Не работает компьютер."],["Dingo elektra!","Пропало электричество!"],["Koks avarinės tarnybos telefono numeris?","Какой номер аварийной службы?"],
+["Ar galėtumėte sutvarkyti butą?","Не могли бы вы убрать квартиру?"],["Kiek kainuoja sutvarkyti butą?","Сколько стоит убрать квартиру?"],["Reikia sutvarkyti virtuvę, vonią ir svetainę.","Нужно убрать кухню, ванную и гостиную."],
+["Reikėtų išsiurbti kambarį ir išplauti grindis.","Нужно бы пропылесосить комнату и вымыть пол."],["Prašom nuvalyti dulkes nuo lentynų.","Вытрите, пожалуйста, пыль с полок."],["Prašom išsiurbti po spinta.","Пропылесосьте, пожалуйста, под шкафом."],
+["Reikia palaistyti gėles.","Нужно полить цветы."],["Ačiū, kad sutvarkėte butą!","Спасибо, что убрали квартиру!"],["Meistras bus po penkiolikos minučių.","Мастер будет через пятнадцать минут."]
+],id);
+
+add("acc",[
+["stalas","stalą"],["kambarys","kambarį"],["fotelis","fotelį"],["koridorius","koridorių"],["lempa","lempą"],["orkaitė","orkaitę"],["čiaupas","čiaupą"],["šaldytuvas","šaldytuvą"],
+["stalai","stalus"],["kambariai","kambarius"],["foteliai","fotelius"],["lempos","lempas"],["orkaitės","orkaites"],["indai","indus"],["lubos","lubas"],["dulkės","dulkes"],["grindys","grindis"],["veidrodis","veidrodį"],["šiukšlės","šiukšles"]
+],function(x){return [x[0]+"\n(valau … / sutvarkykite …)",x[1]]});
+
+add("nuo",[
+["stalas","nuo stalo"],["kompiuteris","nuo kompiuterio"],["lentyna","nuo lentynos"],["gėlė","nuo gėlės"],["televizorius","nuo televizoriaus"],["veidrodis","nuo veidrodžio"],
+["stalai","nuo stalų"],["kompiuteriai","nuo kompiuterių"],["lentynos","nuo lentynų"],["gėlės","nuo gėlių"],["televizoriai","nuo televizorių"],["knygos","nuo knygų"],["lubos","nuo lubų"],["grindys","nuo grindų"]
+],function(x){return [x[0]+"\n(nuvalykite dulkes …)",x[1]]});
+
+add("po",[
+["lova","po lova"],["stalas","po stalu"],["kėdė","po kėde"],["fotelis","po foteliu"],["televizorius","po televizoriumi"],["spinta","po spinta"],["sofa","po sofa"],["kilimas","po kilimu"]
+],function(x){return [x[0]+"\n(išvalykite po …)",x[1]]});
+
+var cat="all",dir="lt",deck=[],known=0,flipped=false,pos=0;
+var CATS=[["all","Все"],["tech","Бытовая техника"],["items","Вещи"],["people","Люди и службы"],["adj","Какой?"],["verbs","Глаголы"],["phrases","Фразы"],["acc","Ką? (вин. п.)"],["nuo","Nuo + род. п."],["po","Po + твор. п."]];
+var DIRS=[["lt","Литовский → русский"],["ru","Русский → литовский"]];
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function build(){
+  deck=DATA.filter(function(d){return cat==="all"||d[2]===cat});
+  shuf(deck);known=0;flipped=false;pos=0;render();
+}
+function chips(id,list,cur,fn){
+  var el=document.getElementById(id);el.innerHTML="";
+  list.forEach(function(x){
+    var b=document.createElement("button");b.className="chip"+(x[0]===cur?" on":"");b.textContent=x[1];
+    b.onclick=function(){fn(x[0])};el.appendChild(b);
+  });
+}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function side(txt){
+  var parts=txt.split("\n");
+  var main=parts[0];
+  var h='<div class="word'+(main.length>18?' long':'')+'">'+esc(main)+'</div>';
+  if(parts[1])h+='<div class="sub">'+esc(parts[1])+'</div>';
+  return h;
+}
+function render(){
+  chips("cats",CATS,cat,function(v){cat=v;build()});
+  chips("dirs",DIRS,dir,function(v){dir=v;flipped=false;render()});
+  document.getElementById("left").textContent="Осталось: "+deck.length;
+  document.getElementById("known").textContent="Знаю: "+known;
+  var st=document.getElementById("stage");
+  if(!deck.length){
+    st.innerHTML='<div class="done"><b>Готово!</b>Вы прошли все карточки. Нажмите «Начать заново», чтобы повторить.</div>';
+    return;
+  }
+  if(pos>=deck.length)pos=deck.length-1;
+  if(pos<0)pos=0;
+  var c=deck[pos],front,back,fixed=(c[2]==="acc"||c[2]==="nuo"||c[2]==="po");
+  if(fixed||dir==="lt"){front=c[0];back=c[1]}else{front=c[1];back=c[0]}
+  document.getElementById("note").textContent=fixed?"В этих карточках направление всегда одно: форма → нужная форма.":"";
+  st.innerHTML='<div class="nav"><button class="arrow" id="prev" aria-label="Предыдущая карточка"'+(pos===0?' disabled':'')+'>←</button>'
+    +'<div class="pos">'+(pos+1)+' из '+deck.length+'</div>'
+    +'<button class="arrow" id="next" aria-label="Следующая карточка"'+(pos===deck.length-1?' disabled':'')+'>→</button></div>'
+    +'<div class="scene"><div class="card'+(flipped?' flip':'')+'" id="card">'
+    +'<div class="face">'+side(front)+'<div class="hint">нажмите, чтобы перевернуть</div></div>'
+    +'<div class="face back">'+side(back)+'</div></div></div>'
+    +'<div class="btns"><button class="btn again" id="again">Повторить</button><button class="btn ok" id="ok">Знаю</button></div>';
+  var card=document.getElementById("card");
+  card.onclick=function(){if(swiped){swiped=false;return}flip()};
+  card.addEventListener("touchstart",function(e){tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+  card.addEventListener("touchend",function(e){
+    var dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)){swiped=true;go(dx<0?1:-1)}
+  });
+  document.getElementById("prev").onclick=function(){go(-1)};
+  document.getElementById("next").onclick=function(){go(1)};
+  document.getElementById("ok").onclick=function(){deck.splice(pos,1);known++;flipped=false;render()};
+  document.getElementById("again").onclick=function(){deck.push(deck.splice(pos,1)[0]);flipped=false;render()};
+}
+var tx=0,ty=0,swiped=false;
+function flip(){var el=document.getElementById("card");if(!el)return;flipped=!flipped;el.classList.toggle("flip")}
+function go(step){
+  var n=pos+step;
+  if(n<0||n>=deck.length)return;
+  pos=n;flipped=false;render();
+}
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowLeft"){go(-1)}
+  else if(e.key==="ArrowRight"){go(1)}
+  else if((e.key===" "||e.key==="Enter")&&e.target===document.body){e.preventDefault();flip()}
+});
+document.getElementById("shuffle").onclick=function(){shuf(deck);flipped=false;pos=0;render()};
+document.getElementById("reset").onclick=build;
+build();
+</script>
+</body>
+</html>

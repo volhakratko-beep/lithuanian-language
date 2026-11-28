@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sėkmės! 2 — Урок 13: Reikia meistro!</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--soft:#f4efe8}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--soft:#2f2d29}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.page{width:100%;max-width:720px;padding:16px 16px 56px}
+h1{font-size:24px;margin:6px 0 4px}
+h2{font-size:20px;margin:30px 0 10px;padding-top:6px;border-top:1px solid var(--line)}
+h3{font-size:17px;margin:20px 0 8px}
+p{margin:8px 0}
+.sub{color:var(--muted);font-size:14px}
+nav{position:sticky;top:0;background:var(--bg);padding:8px 0;margin:10px 0;display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid var(--line);z-index:2}
+nav a{white-space:nowrap;text-decoration:none;color:var(--fg);border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:999px;font-size:14px}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600}
+tr:last-child td{border-bottom:0}
+.note{background:var(--soft);border-left:3px solid var(--accent);padding:10px 12px;border-radius:6px;margin:10px 0;font-size:15px}
+ul{margin:6px 0;padding-left:22px}
+.lt{font-weight:600}
+.links{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.links a{background:var(--accent);color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;font-size:15px}
+.dlg{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0}
+.dlg p{margin:3px 0}
+.lessons{display:flex;justify-content:space-between;gap:10px;margin:18px 0 0;font-size:15px}
+.lessons a{color:var(--accent);text-decoration:none;font-weight:600}
+@media print{nav,.links{display:none}body{display:block}}
+</style>
+</head>
+<body>
+<div class="page">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../" title="Урок 1">1</a><a href="../lesson-2/" title="Урок 2">2</a><a href="../lesson-3/" title="Урок 3">3</a><a href="../lesson-4/" title="Урок 4">4</a><a href="../lesson-5/" title="Урок 5">5</a><a href="../lesson-6/" title="Урок 6">6</a><a href="../lesson-7/" title="Урок 7">7</a><a href="../lesson-8/" title="Урок 8">8</a><a href="../lesson-9/" title="Урок 9">9</a><a href="../lesson-10/" title="Урок 10">10</a><a href="../lesson-11/" title="Урок 11">11</a><a href="../lesson-12/" title="Урок 12">12</a><a href="../lesson-13/" class="cur" aria-current="page" title="Урок 13">13</a><a href="../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+<h1>Урок 13 · Reikia meistro!</h1>
+<div class="sub">Учебник «Sėkmės! 2» (A2) · Нужен мастер!</div>
+<div class="lessons"><a href="../lesson-12/">← Урок 12: Koks jaukus butas!</a><span></span></div>
+<nav>
+  <a href="#frazy">Фразы</a>
+  <a href="#dialogi">Диалоги</a>
+  <a href="#grammar">Грамматика</a>
+  <a href="#words">Слова</a>
+</nav>
+<p>После урока вы сможете сообщить о поломке в доме, вызвать мастера или аварийную службу и договориться об уборке квартиры.</p>
+<div class="links">
+  <a href="test/">Пройти тест к уроку</a>
+  <a href="cards/">Карточки к уроку</a>
+</div>
+<h2 id="frazy">Ключевые фразы</h2>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">Koks avarinės tarnybos telefono numeris?</td><td>Какой номер аварийной службы?</td></tr>
+<tr><td class="lt">Kas atsitiko? — Trūko vamzdis! Virtuvėje bėga vanduo!</td><td>Что случилось? — Лопнула труба! На кухне течёт вода!</td></tr>
+<tr><td class="lt">Nėra elektros. Nėra karšto / šalto vandens. Nėra interneto.</td><td>Нет электричества. Нет горячей / холодной воды. Нет интернета.</td></tr>
+<tr><td class="lt">Sugedo šaldytuvas / viryklė / indaplovė.</td><td>Сломался холодильник / плита / посудомоечная машина.</td></tr>
+<tr><td class="lt">Neveikia kompiuteris. Dingo elektra! Reikia meistro.</td><td>Не работает компьютер. Пропало электричество! Нужен мастер.</td></tr>
+<tr><td class="lt">Ar galėtumėte sutvarkyti butą? Kada galėtumėte sutvarkyti namą?</td><td>Не могли бы вы убрать квартиру? Когда вы могли бы убрать дом?</td></tr>
+<tr><td class="lt">Kiek kainuoja sutvarkyti butą? Kiek kainuoja namo valymas?</td><td>Сколько стоит убрать квартиру? Сколько стоит уборка дома?</td></tr>
+<tr><td class="lt">Reikia sutvarkyti virtuvę, vonią ir svetainę.</td><td>Нужно убрать кухню, ванную и гостиную.</td></tr>
+<tr><td class="lt">Reikėtų išsiurbti kambarį ir išplauti grindis.</td><td>Нужно бы пропылесосить комнату и вымыть пол.</td></tr>
+<tr><td class="lt">Prašom nuvalyti dulkes nuo lentynų.</td><td>Вытрите, пожалуйста, пыль с полок.</td></tr>
+<tr><td class="lt">Prašom išsiurbti po spinta.</td><td>Пропылесосьте, пожалуйста, под шкафом.</td></tr>
+<tr><td class="lt">Reikia palaistyti gėles.</td><td>Нужно полить цветы.</td></tr>
+<tr><td class="lt">Ačiū, kad sutvarkėte butą!</td><td>Спасибо, что убрали квартиру!</td></tr>
+</table></div>
+<h2 id="dialogi">Диалоги</h2>
+<div class="dlg">
+<p><b>Rūta:</b> Jurgi, man reikia meistro – kavos aparatas sugedo. Gal turi meistro telefono numerį?</p>
+<p><b>Jurgis:</b> Ne, Rūta, aš neturiu. Pažiūrėk internete.</p>
+<p><b>Rūta:</b> Gera mintis! Ir aš, ir mano vyras labai mėgstame gerti kavą! Dabar namuose kavos gerti negalime, reikia eiti į kavinę.</p>
+<p><b>Jurgis:</b> Kviečiu kavos pas mus! Ateikite rytoj po pietų. Mes taip pat labai mėgstame kavą.</p>
+<p><b>Rūta:</b> Ačiū! Labai malonu! Būtinai ateisime!</p>
+<p class="sub">Рута: Юргис, мне нужен мастер — сломалась кофемашина. Нет ли у тебя номера телефона мастера? — Юргис: Нет, Рута, у меня нет. Посмотри в интернете. — Рута: Хорошая мысль! И я, и мой муж очень любим пить кофе! Сейчас дома мы не можем пить кофе, нужно идти в кафе. — Юргис: Приглашаю на кофе к нам! Приходите завтра после обеда. Мы тоже очень любим кофе. — Рута: Спасибо! Очень приятно! Обязательно придём!</p>
+</div>
+<div class="dlg">
+<p><b>Nuomininkas:</b> Laba diena, ponia Irute, bute neveikia viryklė.</p>
+<p><b>Buto šeimininkė:</b> Reikia iškviesti meistrą. Ar rytoj būsite namie?</p>
+<p><b>Nuomininkas:</b> Taip, būsiu visą dieną.</p>
+<p><b>Buto šeimininkė:</b> Gerai, rytoj laukite meistro.</p>
+<p><b>Nuomininkas:</b> Labai ačiū! Viso gero!</p>
+<p><b>Buto šeimininkė:</b> Viso gero!</p>
+<p class="sub">Жилец: Добрый день, госпожа Ируте, в квартире не работает плита. — Хозяйка: Нужно вызвать мастера. Вы завтра будете дома? — Да, буду весь день. — Хорошо, завтра ждите мастера. — Большое спасибо! Всего доброго! — Всего доброго!</p>
+</div>
+<div class="dlg">
+<p><b>Jurgis:</b> Labas vakaras, Jolanta.</p>
+<p><b>Jolanta:</b> Labas vakaras, Jurgi.</p>
+<p><b>Jurgis:</b> Mūsų bute nėra karšto vandens. Ar pas jus yra?</p>
+<p><b>Jolanta:</b> Ne, pas mus taip pat nėra karšto vandens. Rytoj rytą atvažiuos meistras.</p>
+<p><b>Jurgis:</b> Labai gerai! Ačiū, Jolanta! Labanakt!</p>
+<p><b>Jolanta:</b> Labanakt!</p>
+<p class="sub">Юргис: Добрый вечер, Йоланта. — Йоланта: Добрый вечер, Юргис. — Юргис: В нашей квартире нет горячей воды. А у вас есть? — Йоланта: Нет, у нас тоже нет горячей воды. Завтра утром приедет мастер. — Юргис: Очень хорошо! Спасибо, Йоланта! Спокойной ночи! — Йоланта: Спокойной ночи!</p>
+</div>
+<div class="dlg">
+<p><b>Dispečerė:</b> Labas vakaras. Avarinė tarnyba.</p>
+<p><b>Vyras:</b> Labas vakaras. Reikia meistro – trūko vamzdis, vonioje bėga vanduo!</p>
+<p><b>Dispečerė:</b> Koks adresas?</p>
+<p><b>Vyras:</b> Upės gatvė 39A–1.</p>
+<p><b>Dispečerė:</b> Meistras bus po penkiolikos minučių. Laukite.</p>
+<p><b>Vyras:</b> Ačiū!</p>
+<p class="sub">Диспетчер: Добрый вечер. Аварийная служба. — Мужчина: Добрый вечер. Нужен мастер — лопнула труба, в ванной течёт вода! — Какой адрес? — Улица Упес, 39A–1. — Мастер будет через пятнадцать минут. Ждите. — Спасибо!</p>
+</div>
+<div class="dlg">
+<p><b>Namų tvarkytoja:</b> Ką reikia sutvarkyti?</p>
+<p><b>Buto šeimininkė:</b> Reikia sutvarkyti virtuvę, išvalyti vonią, svetainėje išsiurbti kilimą, nuvalyti dulkes nuo lentynų. Dar reikėtų išvalyti langus. Ar galėsite?</p>
+<p><b>Namų tvarkytoja:</b> Taip, žinoma.</p>
+<p><b>Buto šeimininkė:</b> Puiku! Valymo priemonės yra vonioje.</p>
+<p><b>Namų tvarkytoja:</b> Aš jums paskambinsiu, kai baigsiu tvarkyti butą.</p>
+<p><b>Buto šeimininkė:</b> Ačiū!</p>
+<p class="sub">Домработница: Что нужно убрать? — Хозяйка: Нужно убрать кухню, вычистить ванную, в гостиной пропылесосить ковёр, вытереть пыль с полок. Ещё нужно бы помыть окна. Сможете? — Да, конечно. — Отлично! Чистящие средства в ванной. — Я вам позвоню, когда закончу убирать квартиру. — Спасибо!</p>
+</div>
+<div class="dlg">
+<p><b>Buto šeimininkė:</b> Reikia išsiurbti po lova ir spinta.</p>
+<p><b>Namų tvarkytoja:</b> Kur yra dulkių siurblys?</p>
+<p><b>Buto šeimininkė:</b> Dulkių siurblys yra koridoriuje.</p>
+<p class="sub">Хозяйка: Нужно пропылесосить под кроватью и шкафом. — Домработница: Где пылесос? — Хозяйка: Пылесос в коридоре.</p>
+</div>
+<div class="dlg">
+<p><b>Moteris:</b> Kiek kainuoja buto valymas?</p>
+<p><b>Vadybininkas:</b> Kiek kvadratinių metrų?</p>
+<p><b>Moteris:</b> Šešiasdešimt penki kvadratiniai metrai.</p>
+<p><b>Vadybininkas:</b> Ar kasdienis valymas?</p>
+<p><b>Moteris:</b> Ne, valymas po remonto.</p>
+<p><b>Vadybininkas:</b> Valymas po remonto kainuoja du eurus už kvadratinį metrą.</p>
+<p><b>Moteris:</b> Ačiū!</p>
+<p><b>Vadybininkas:</b> Prašom!</p>
+<p class="sub">Женщина: Сколько стоит уборка квартиры? — Менеджер: Сколько квадратных метров? — Шестьдесят пять квадратных метров. — Это ежедневная уборка? — Нет, уборка после ремонта. — Уборка после ремонта стоит два евро за квадратный метр. — Спасибо! — Пожалуйста!</p>
+</div>
+<h2 id="grammar">Грамматика</h2>
+<h3>1. Винительный падеж: что чиним, убираем (ką?)</h3>
+<p><i>Reikia pataisyti čiaupą. Prašom sutvarkyti kambarius.</i></p>
+<p>Глаголы <b>pataisyti, sutvarkyti, valyti, nuvalyti, išplauti, išsiurbti, įjungti, išjungti</b> + винительный падеж (<b>ką?</b>).</p>
+<p><b>Единственное число:</b></p>
+<div class="wrap"><table>
+<tr><th>Им. п.</th><th>Вин. п.</th><th>Пример</th></tr>
+<tr><td>-as</td><td class="lt">-ą</td><td>stalas → <b>stalą</b></td></tr>
+<tr><td>-ys</td><td class="lt">-į</td><td>kambarys → <b>kambarį</b></td></tr>
+<tr><td>-is</td><td class="lt">-į</td><td>fotelis → <b>fotelį</b>; veidrodis → <b>veidrodį</b></td></tr>
+<tr><td>-ius</td><td class="lt">-ių</td><td>koridorius → <b>koridorių</b></td></tr>
+<tr><td>-a</td><td class="lt">-ą</td><td>lempa → <b>lempą</b></td></tr>
+<tr><td>-ė</td><td class="lt">-ę</td><td>orkaitė → <b>orkaitę</b></td></tr>
+</table></div>
+<p><b>Множественное число:</b></p>
+<div class="wrap"><table>
+<tr><th>Им. п. мн. ч.</th><th>Вин. п. мн. ч.</th><th>Пример</th></tr>
+<tr><td>-ai</td><td class="lt">-us</td><td>stalai → <b>stalus</b>; indai → <b>indus</b></td></tr>
+<tr><td>-iai</td><td class="lt">-ius</td><td>kambariai → <b>kambarius</b>; foteliai → <b>fotelius</b></td></tr>
+<tr><td>-os</td><td class="lt">-as</td><td>lempos → <b>lempas</b>; lubos → <b>lubas</b></td></tr>
+<tr><td>-ės</td><td class="lt">-es</td><td>orkaitės → <b>orkaites</b>; dulkės → <b>dulkes</b></td></tr>
+<tr><td>-ys</td><td class="lt">-is</td><td>grindys → <b>grindis</b></td></tr>
+</table></div>
+<h3>2. Nuo + родительный падеж: «с, от»</h3>
+<p><i>Prašom nuvalyti dulkes nuo televizoriaus ir lentynų.</i></p>
+<div class="wrap"><table>
+<tr><th>Ед. ч.</th><th>Nuo + род. п.</th><th>Мн. ч.</th><th>Nuo + род. п.</th></tr>
+<tr><td>stalas</td><td>nuo <b>stalo</b></td><td>stalai</td><td>nuo <b>stalų</b></td></tr>
+<tr><td>kompiuteris</td><td>nuo <b>kompiuterio</b></td><td>kompiuteriai</td><td>nuo <b>kompiuterių</b></td></tr>
+<tr><td>lentyna</td><td>nuo <b>lentynos</b></td><td>lentynos</td><td>nuo <b>lentynų</b></td></tr>
+<tr><td>gėlė</td><td>nuo <b>gėlės</b></td><td>gėlės</td><td>nuo <b>gėlių</b></td></tr>
+<tr><td>televizorius</td><td>nuo <b>televizoriaus</b></td><td>televizoriai</td><td>nuo <b>televizorių</b></td></tr>
+<tr><td>lubos, grindys (мн.)</td><td>nuo <b>lubų</b>, <b>grindų</b></td><td></td><td></td></tr>
+</table></div>
+<h3>3. Po + творительный падеж: «под»</h3>
+<p><i>Prašom išsiurbti po spinta. Išvalykite po lova ir stalu.</i></p>
+<div class="wrap"><table>
+<tr><th>Им. п.</th><th>Твор. п.</th><th>Пример</th></tr>
+<tr><td>-as</td><td class="lt">-u</td><td>stalas → po <b>stalu</b></td></tr>
+<tr><td>-is</td><td class="lt">-iu</td><td>fotelis → po <b>foteliu</b></td></tr>
+<tr><td>-a</td><td class="lt">-a</td><td>lova → po <b>lova</b></td></tr>
+<tr><td>-ė</td><td class="lt">-e</td><td>kėdė → po <b>kėde</b></td></tr>
+<tr><td>-ius</td><td class="lt">-iumi</td><td>televizorius → po <b>televizoriumi</b></td></tr>
+</table></div>
+<div class="note">Не путайте: <b>po + творительный</b> — «под» (po stalu); <b>po + родительный</b> — «после, через» (po darbo, po valandos). <b>Ant</b> + род. п. — «на» (ant stalo), <b>prie</b> + род. п. — «у, рядом» (prie sofos), <b>nuo</b> + род. п. — «с, от».</div>
+<h2 id="words">Словарь урока</h2>
+<h3>Бытовая техника</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">buitinė technika</td><td>бытовая техника</td></tr>
+<tr><td class="lt">šaldytuvas</td><td>холодильник</td></tr>
+<tr><td class="lt">orkaitė</td><td>духовка</td></tr>
+<tr><td class="lt">viryklė</td><td>плита</td></tr>
+<tr><td class="lt">mikrobangų krosnelė</td><td>микроволновка</td></tr>
+<tr><td class="lt">indaplovė</td><td>посудомоечная машина</td></tr>
+<tr><td class="lt">skalbyklė</td><td>стиральная машина</td></tr>
+<tr><td class="lt">džiovyklė</td><td>сушильная машина</td></tr>
+<tr><td class="lt">virdulys</td><td>чайник</td></tr>
+<tr><td class="lt">kavos aparatas</td><td>кофемашина</td></tr>
+<tr><td class="lt">dulkių siurblys</td><td>пылесос</td></tr>
+<tr><td class="lt">lygintuvas</td><td>утюг</td></tr>
+</table></div>
+<h3>Вещи</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">daiktai</td><td>вещи</td></tr>
+<tr><td class="lt">televizorius</td><td>телевизор</td></tr>
+<tr><td class="lt">lempa</td><td>лампа</td></tr>
+<tr><td class="lt">veidrodis</td><td>зеркало</td></tr>
+<tr><td class="lt">paveikslas</td><td>картина</td></tr>
+<tr><td class="lt">gėlė</td><td>цветок</td></tr>
+<tr><td class="lt">kilimas</td><td>ковёр</td></tr>
+<tr><td class="lt">indai</td><td>посуда</td></tr>
+<tr><td class="lt">šiukšlių dėžė</td><td>мусорное ведро</td></tr>
+<tr><td class="lt">šiukšlės</td><td>мусор</td></tr>
+<tr><td class="lt">dulkės</td><td>пыль</td></tr>
+<tr><td class="lt">purvas</td><td>грязь</td></tr>
+<tr><td class="lt">valymas</td><td>уборка</td></tr>
+<tr><td class="lt">šviesa</td><td>свет</td></tr>
+<tr><td class="lt">vamzdis</td><td>труба</td></tr>
+<tr><td class="lt">čiaupas</td><td>кран</td></tr>
+<tr><td class="lt">remontas</td><td>ремонт</td></tr>
+<tr><td class="lt">kvadratinis metras (m²)</td><td>квадратный метр</td></tr>
+</table></div>
+<h3>Люди и службы</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">meistras, meistrė</td><td>мастер</td></tr>
+<tr><td class="lt">santechnikas, santechnikė</td><td>сантехник</td></tr>
+<tr><td class="lt">kaimynas, kaimynė</td><td>сосед</td></tr>
+<tr><td class="lt">namų tvarkytojas, tvarkytoja</td><td>уборщик, домработница</td></tr>
+<tr><td class="lt">avarinė tarnyba</td><td>аварийная служба</td></tr>
+</table></div>
+<h3>Какой?</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">švarus, švari</td><td>чистый</td></tr>
+<tr><td class="lt">nešvarus, nešvari</td><td>грязный</td></tr>
+<tr><td class="lt">tvarkingas, tvarkinga</td><td>аккуратный</td></tr>
+</table></div>
+<h3>Глаголы</h3>
+<div class="wrap"><table>
+<tr><th>Литовский</th><th>Русский</th></tr>
+<tr><td class="lt">tvarkyti, tvarko, tvarkė (ką?)</td><td>убирать</td></tr>
+<tr><td class="lt">sutvarkyti, sutvarko, sutvarkė (ką?)</td><td>привести в порядок</td></tr>
+<tr><td class="lt">valyti, valo, valė (ką?)</td><td>чистить</td></tr>
+<tr><td class="lt">nuvalyti, nuvalo, nuvalė (ką?)</td><td>вытереть</td></tr>
+<tr><td class="lt">išvalyti, išvalo, išvalė (ką?)</td><td>вычистить</td></tr>
+<tr><td class="lt">išplauti, išplauna, išplovė (ką?)</td><td>вымыть</td></tr>
+<tr><td class="lt">išsiurbti, išsiurbia, išsiurbė (ką?)</td><td>пропылесосить</td></tr>
+<tr><td class="lt">išnešti, išneša, išnešė (ką?)</td><td>вынести</td></tr>
+<tr><td class="lt">įjungti, įjungia, įjungė (ką?)</td><td>включить</td></tr>
+<tr><td class="lt">išjungti, išjungia, išjungė (ką?)</td><td>выключить</td></tr>
+<tr><td class="lt">trūkti, trūksta, trūko</td><td>лопнуть</td></tr>
+<tr><td class="lt">pataisyti, pataiso, pataisė (ką?)</td><td>починить</td></tr>
+<tr><td class="lt">sugesti, sugenda, sugedo</td><td>сломаться</td></tr>
+<tr><td class="lt">veikti, veikia, veikė</td><td>работать</td></tr>
+</table></div>
+<div class="links">
+  <a href="test/">Пройти тест к уроку</a>
+  <a href="cards/">Карточки к уроку</a>
+</div>
+<div class="lessons"><a href="../lesson-12/">← Урок 12: Koks jaukus butas!</a><span></span></div>
+</div>
+</body>
+</html>

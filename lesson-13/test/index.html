@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тест: Sėkmės! 2, урок 13</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1f1e1b;--muted:#6b6a65;--card:#fff;--line:#dcdad3;--accent:#c2410c;--ok:#2f7d4f;--okbg:#e6f4ec;--bad:#b42318;--badbg:#fdecea}
+@media (prefers-color-scheme:dark){:root{--bg:#1c1b19;--fg:#f1efe9;--muted:#a3a198;--card:#2a2926;--line:#3d3b36;--accent:#fb923c;--ok:#6fcf97;--okbg:#1f3a2b;--bad:#f87171;--badbg:#3f2220}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;justify-content:center}
+.app{width:100%;max-width:520px;padding:16px 16px 40px}
+h1{font-size:20px;margin:4px 0 4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:14px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-bottom:14px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.qt{font-size:18px;font-weight:600;margin:0 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:0 0 8px;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font-size:16px;cursor:pointer}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.exp{margin-top:12px;font-size:15px;color:var(--fg);border-left:3px solid var(--accent);padding-left:10px}
+.next{margin-top:14px;width:100%;padding:14px;border-radius:12px;border:0;background:var(--accent);color:#fff;font-size:16px;cursor:pointer}
+.score{font-size:42px;font-weight:700;margin:6px 0}
+.rev{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:15px}
+.rev b{display:block;margin-bottom:4px}
+.good{color:var(--ok)} .wrong{color:var(--bad)}
+.back-link{display:inline-block;color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="app">
+<!--lesson-menu--><style>.lmenu{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 12px;font-size:14px}.lmenu span{color:var(--muted);margin-right:2px}.lmenu a{min-width:34px;text-align:center;padding:5px 8px;border:1px solid var(--line);border-radius:8px;text-decoration:none;color:var(--fg);background:var(--card)}.lmenu a.cur{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}</style><nav class="lmenu" aria-label="Уроки"><span>Уроки:</span><a href="../../" title="Урок 1">1</a><a href="../../lesson-2/" title="Урок 2">2</a><a href="../../lesson-3/" title="Урок 3">3</a><a href="../../lesson-4/" title="Урок 4">4</a><a href="../../lesson-5/" title="Урок 5">5</a><a href="../../lesson-6/" title="Урок 6">6</a><a href="../../lesson-7/" title="Урок 7">7</a><a href="../../lesson-8/" title="Урок 8">8</a><a href="../../lesson-9/" title="Урок 9">9</a><a href="../../lesson-10/" title="Урок 10">10</a><a href="../../lesson-11/" title="Урок 11">11</a><a href="../../lesson-12/" title="Урок 12">12</a><a href="../../lesson-13/" class="cur" aria-current="page" title="Урок 13">13</a><a href="../../grammar/" title="Грамматика уроков">Грамматика</a></nav><!--/lesson-menu-->
+  <a class="back-link" href="../">← К уроку</a>
+  <h1>Тест · Урок 13 · Reikia meistro!</h1>
+  <div class="sub">Sėkmės! 2 · поломки и уборка, бытовая техника, винительный (что чиним), nuo + родительный, po + творительный (под)</div>
+  <div class="bar"><i id="bar"></i></div>
+  <div class="meta"><span id="num"></span><span id="sc"></span></div>
+  <div id="stage"></div>
+</div>
+<script>
+var Q=[
+["Что значит «Reikia meistro»?",["Нужен мастер","Мастер пришёл","Мастер сломал","Где мастер?"],0,"Reikia + родительный: нужен мастер."],
+["Что значит «trūko vamzdis»?",["лопнула труба","сломался кран","нет света","течёт крыша"],0,"Vamzdis — труба; trūko — лопнула."],
+["Что значит «Dingo elektra!»?",["Пропало электричество!","Включите свет!","Сломался телевизор!","Нужен электрик!"],0,"Dingo — пропало."],
+["Что значит «Nėra karšto vandens»?",["Нет горячей воды","Нет холодной воды","Вода холодная","Течёт вода"],0,"Karštas — горячий; šaltas — холодный."],
+["Что значит «avarinė tarnyba»?",["аварийная служба","служба доставки","полиция","справочная"],0,"Avarinė tarnyba — аварийная служба."],
+["Что значит «skalbyklė»?",["стиральная машина","посудомоечная машина","сушилка","плита"],0,"Skalbyklė — стиральная машина."],
+["Что значит «indaplovė»?",["посудомоечная машина","стиральная машина","плита","пылесос"],0,"Indai — посуда; indaplovė — посудомойка."],
+["Что значит «dulkių siurblys»?",["пылесос","утюг","чайник","кофемашина"],0,"Dulkės — пыль, siurblys — насос."],
+["Что значит «lygintuvas»?",["утюг","чайник","духовка","лампа"],0,"Lygintuvas — утюг."],
+["Что значит «virdulys»?",["чайник","утюг","кофемашина","чашка"],0,"Virdulys — чайник."],
+["Что значит «orkaitė»?",["духовка","плита","холодильник","микроволновка"],0,"Orkaitė — духовка; viryklė — плита."],
+["Какое слово означает «плита (варочная)»?",["viryklė","orkaitė","krosnelė","indaplovė"],0,"Viryklė — плита."],
+["Что значит «šiukšlių dėžė»?",["мусорное ведро","ящик с игрушками","шкаф","сумка"],0,"Šiukšlės — мусор."],
+["Что значит «veidrodis»?",["зеркало","картина","лампа","цветок"],0,"Veidrodis — зеркало (род. п. veidrodžio)."],
+["Что значит «paveikslas»?",["картина","зеркало","окно","фото"],0,"Paveikslas — картина."],
+["Что значит «dulkės»?",["пыль","грязь","мусор","вода"],0,"Dulkės — пыль; purvas — грязь."],
+["Кто такой «santechnikas»?",["сантехник","электрик","сосед","уборщик"],0,"Santechnikas — сантехник."],
+["Кто такой «kaimynas»?",["сосед","мастер","хозяин","диспетчер"],0,"Kaimynas — сосед."],
+["Какое слово не относится к бытовой технике?",["veidrodis","šaldytuvas","skalbyklė","virdulys"],0,"Veidrodis — зеркало, предмет интерьера."],
+["Какое слово не относится к уборке?",["išjungti","išvalyti","išplauti","išsiurbti"],0,"Išjungti — выключить."],
+["Какое слово означает «tvarkingas»?",["аккуратный, в порядке","грязный","большой","дорогой"],0,"Tvarkingas — аккуратный; netvarkingas — неубранный."],
+["Какое слово противоположно «švarus»?",["nešvarus","tvarkingas","šviesus","tylus"],0,"Švarus — чистый; nešvarus — грязный."],
+["Что значит «išsiurbti»?",["пропылесосить","вытереть пыль","вымыть","вынести"],0,"Išsiurbti kilimą — пропылесосить ковёр."],
+["Что значит «išnešti šiukšles»?",["вынести мусор","убрать пыль","выбросить вещи","купить мусорные пакеты"],0,"Išnešti — вынести."],
+["Что значит «įjungti»?",["включить","выключить","починить","открыть"],0,"Įjungti — включить; išjungti — выключить."],
+["Prašom ___ šviesą. (включить)",["įjungti","išjungti","uždaryti","užrakinti"],0,"Įjungti šviesą — включить свет."],
+["Какая форма верна: Reikia pataisyti ___. (čiaupas)",["čiaupą","čiaupas","čiaupo","čiaupu"],0,"После pataisyti — винительный: čiaupą."],
+["Valau ___. (stalas)",["stalą","stalas","stalo","stalu"],0,"-as → -ą."],
+["Valau ___. (kambarys)",["kambarį","kambarys","kambario","kambariu"],0,"-ys → -į."],
+["Valau ___. (fotelis)",["fotelį","fotelis","fotelio","foteliu"],0,"-is → -į."],
+["Valau ___. (koridorius)",["koridorių","koridorius","koridoriaus","koridoriumi"],0,"-ius → -ių."],
+["Valau ___. (lempa)",["lempą","lempa","lempos","lempai"],0,"-a → -ą."],
+["Valau ___. (orkaitė)",["orkaitę","orkaitė","orkaitės","orkaitei"],0,"-ė → -ę."],
+["Nuvalykite ___. (veidrodis)",["veidrodį","veidrodis","veidrodžio","veidrodžiu"],0,"veidrodis → veidrodį."],
+["Prašom išplauti ___. (indai)",["indus","indai","indų","indams"],0,"Мн. ч. винительный: -ai → -us."],
+["Prašom sutvarkyti ___. (kambariai)",["kambarius","kambariai","kambarių","kambariams"],0,"-iai → -ius."],
+["Išplaukite ___. (grindys)",["grindis","grindys","grindų","grindims"],0,"grindys → grindis."],
+["Reikia nuvalyti ___. (dulkės)",["dulkes","dulkės","dulkių","dulkėms"],0,"-ės → -es."],
+["Reikia išnešti ___. (šiukšlės)",["šiukšles","šiukšlės","šiukšlių","šiukšlėms"],0,"šiukšlės → šiukšles."],
+["Prašom išsiurbti ___. (kilimai)",["kilimus","kilimai","kilimų","kilimams"],0,"kilimai → kilimus."],
+["Nuvalykite dulkes nuo ___. (stalas)",["stalo","stalą","stalas","stalu"],0,"Nuo + родительный: nuo stalo."],
+["Nuvalykite dulkes nuo ___. (lentyna)",["lentynos","lentyną","lentyna","lentynai"],0,"nuo lentynos."],
+["Nuvalykite dulkes nuo ___. (televizorius)",["televizoriaus","televizorių","televizorius","televizoriumi"],0,"nuo televizoriaus."],
+["Nuvalykite dulkes nuo ___. (lentynos, мн. ч.)",["lentynų","lentynas","lentynos","lentynoms"],0,"nuo lentynų."],
+["Nuvalykite dulkes nuo ___. (knygos)",["knygų","knygas","knygos","knygoms"],0,"nuo knygų."],
+["Nuvalykite dulkes nuo ___. (gėlės)",["gėlių","gėles","gėlės","gėlėms"],0,"gėlės → gėlių."],
+["Nuvalykite dulkes nuo ___. (kompiuteriai)",["kompiuterių","kompiuterius","kompiuteriai","kompiuteriams"],0,"nuo kompiuterių."],
+["Išsiurbkite po ___. (lova)",["lova","lovos","lovą","lovai"],0,"Po + творительный: po lova."],
+["Išvalykite po ___. (stalas)",["stalu","stalo","stalą","stalas"],0,"po stalu."],
+["Išvalykite po ___. (fotelis)",["foteliu","fotelio","fotelį","fotelis"],0,"po foteliu."],
+["Išvalykite po ___. (kėdė)",["kėde","kėdės","kėdę","kėdė"],0,"po kėde."],
+["Išvalykite po ___. (televizorius)",["televizoriumi","televizoriaus","televizorių","televizorius"],0,"po televizoriumi."],
+["Какой предлог: Paveikslas yra ___ sienos.",["ant","po","nuo","prie"],0,"Ant sienos — на стене (на поверхности)."],
+["Какой предлог: Vaisiai yra ___ stalo. (на столе)",["ant","po","nuo","prie"],0,"ant stalo."],
+["Какой предлог: Telefonas yra ___ stalu. (под столом)",["po","ant","nuo","prie"],0,"po stalu — под столом."],
+["Какой предлог: Fotelis yra ___ sofos. (рядом с диваном)",["prie","ant","po","nuo"],0,"prie sofos — у, рядом."],
+["Какой предлог: Nuvalykite dulkes ___ lentynų. (с полок)",["nuo","po","prie","ant"],0,"nuo — с, от."],
+["Какая конструкция: po + ?",["po stalu (творительный)","po stalo (родительный) в значении «под»","po stalą (винительный)","po stalas (именительный)"],0,"«Под» — po + творительный; «после/через» — po + родительный (po darbo)."],
+["Что значит «Meistras bus po penkiolikos minučių»?",["Мастер будет через пятнадцать минут","Мастер был пятнадцать минут назад","Мастер придёт в пятнадцать часов","Мастер работает пятнадцать минут"],0,"Po + родительный — «через»."],
+["Какая фраза вежливо просит убрать квартиру?",["Ar galėtumėte sutvarkyti butą?","Sutvarkei butą.","Butas sutvarkytas.","Reikia sutvarkė butą."],0,"Условное наклонение — вежливая просьба."]
+];
+
+var order,i,score,wrong,answered;
+function shuf(a){for(var k=a.length-1;k>0;k--){var j=Math.floor(Math.random()*(k+1));var t=a[k];a[k]=a[j];a[j]=t}return a}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")}
+function start(){order=shuf(Q.map(function(_,k){return k}));i=0;score=0;wrong=[];show()}
+function show(){
+  var st=document.getElementById("stage");
+  document.getElementById("bar").style.width=(i/order.length*100)+"%";
+  document.getElementById("sc").textContent="Верно: "+score;
+  if(i>=order.length){return finish(st)}
+  document.getElementById("num").textContent="Вопрос "+(i+1)+" из "+order.length;
+  var q=Q[order[i]];answered=false;
+  var opts=shuf(q[1].map(function(t,k){return {t:t,c:k===q[2]}}));
+  var h='<div class="q"><p class="qt">'+esc(q[0])+'</p>';
+  opts.forEach(function(o,k){h+='<button class="opt" data-k="'+k+'">'+esc(o.t)+'</button>'});
+  h+='<div id="fb"></div></div>';
+  st.innerHTML=h;
+  var btns=st.querySelectorAll(".opt");
+  btns.forEach(function(b){b.onclick=function(){
+    if(answered)return;answered=true;
+    var o=opts[+b.dataset.k];
+    btns.forEach(function(x,k){x.disabled=true;if(opts[k].c)x.classList.add("ok")});
+    if(o.c){score++}else{b.classList.add("bad");wrong.push({q:q[0],a:q[1][q[2]],e:q[3]})}
+    document.getElementById("sc").textContent="Верно: "+score;
+    var last=(i+1>=order.length);
+    document.getElementById("fb").innerHTML='<div class="exp"><b class="'+(o.c?'good">Верно!':'wrong">Не совсем.')+'</b> '+esc(q[3])+'</div><button class="next" id="nx">'+(last?'Результат':'Дальше')+'</button>';
+    document.getElementById("nx").onclick=function(){i++;show()};
+  }});
+}
+function finish(st){
+  document.getElementById("bar").style.width="100%";
+  document.getElementById("num").textContent="Готово";
+  var p=Math.round(score/order.length*100);
+  var msg=p>=90?"Отлично! Можно переходить к уроку 14.":p>=70?"Хорошо. Повторите ошибки ниже и переходите дальше.":"Стоит ещё раз пройти конспект урока 13 и повторить тест.";
+  var h='<div class="q"><div class="sub">Ваш результат</div><div class="score">'+score+' / '+order.length+'</div><p>'+msg+'</p>';
+  if(wrong.length){h+='<p class="qt">Разберите ошибки</p>';wrong.forEach(function(w){h+='<div class="rev"><b>'+esc(w.q)+'</b>Правильно: <span class="good">'+esc(w.a)+'</span><br>'+esc(w.e)+'</div>'})}
+  h+='<button class="next" id="again">Пройти ещё раз</button></div>';
+  st.innerHTML=h;
+  document.getElementById("again").onclick=start;
+}
+start();
+</script>
+</body>
+</html>
